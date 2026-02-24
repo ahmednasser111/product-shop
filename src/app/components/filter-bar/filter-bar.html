@@ -1,0 +1,43 @@
+<div class="flex flex-wrap gap-2 mb-4">
+
+  <input
+    type="text"
+    placeholder="Search by name..."
+    [(ngModel)]="filters.name"
+    (ngModelChange)="emit()"
+    class="flex-1 min-w-32 px-3 py-1.5 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+
+  <select
+    [(ngModel)]="filters.category"
+    (ngModelChange)="emit()"
+    class="flex-1 min-w-32 px-3 py-1.5 border rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+    @for (cat of categories; track cat) {
+      <option [value]="cat">{{ cat }}</option>
+    }
+  </select>
+
+  <input
+    type="number"
+    placeholder="Min"
+    [(ngModel)]="filters.minPrice"
+    (ngModelChange)="emit()"
+    class="w-24 px-3 py-1.5 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+
+  <input
+    type="number"
+    placeholder="Max"
+    [(ngModel)]="filters.maxPrice"
+    (ngModelChange)="emit()"
+    class="w-24 px-3 py-1.5 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+
+  <select
+    [(ngModel)]="filters.sortBy"
+    (ngModelChange)="emit()"
+    class="flex-1 min-w-32 px-3 py-1.5 border rounded-md text-sm bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+    <option value="name">Name</option>
+    <option value="price-asc">Price ↑</option>
+    <option value="price-desc">Price ↓</option>
+    <option value="rating">Rating</option>
+  </select>
+
+</div>

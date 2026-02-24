@@ -1,0 +1,37 @@
+<!-- make the card with limited width and height -->
+<div class="bg-white rounded-2xl overflow-hidden flex flex-col h-full"
+     appCardShadow>
+
+  <div class="overflow-hidden h-48 relative">
+	<img
+      [src]="product.image"
+      [alt]="product.name"
+      class="w-full h-full object-cover"
+      appZoomImage />
+    <span class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+      {{ product.category }}
+    </span>
+  </div>
+
+  <div class="p-4 flex flex-col gap-2 flex-1">
+
+    <h3 class="text-base font-bold text-gray-900">{{ product.name }}</h3>
+
+    <p class="text-amber-400 tracking-widest text-sm">{{ '⭐'.repeat(product.rating) + '☆'.repeat(5 - product.rating) }}</p>
+
+    <p class="text-sm text-gray-500 leading-relaxed cursor-pointer" (click)="toggleDetails()">
+      {{ details ? product.description : (product.description | truncate) }}
+    </p>
+
+    <div class="flex items-center justify-between gap-3 mt-auto pt-3 border-t border-gray-100">
+      <span class="text-xl font-extrabold text-gray-900">${{ product.price }}</span>
+      <div class="flex-1">
+        <app-buy-button
+		  title="Add to Cart"
+          color="#4f46e5"
+          [fun]="onClick" />
+      </div>
+    </div>
+
+  </div>
+</div>

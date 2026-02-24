@@ -1,0 +1,20 @@
+<div class="min-h-screen bg-slate-100">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+
+    <app-filter-bar (filterChanged)="onFilterChanged($event)" />
+
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (product of filteredProducts; track product.id) {
+        <app-product-card [product]="product" />
+      }
+      @if (filteredProducts.length === 0) {
+        <p class="col-span-full text-center text-gray-400 py-16 text-lg">
+          No products match your filters.
+        </p>
+      }
+    </div>
+    <app-total-price [products]="filteredProducts" />
+
+  </div>
+</div>
