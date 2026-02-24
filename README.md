@@ -18,13 +18,13 @@ _Note: The exact feature set may vary slightly depending on the exercise or lab 
 ## Prerequisites
 
 - **Node.js**: v18+ (LTS recommended)
-- **npm**: v9+ (installed with Node)
+- **pnpm**: v9+
 - **Angular CLI**: v21.1.4 or compatible
 
 Install Angular CLI globally if you don’t already have it:
 
 ```bash
-npm install -g @angular/cli
+pnpm install -g @angular/cli
 ```
 
 ---
@@ -34,7 +34,7 @@ npm install -g @angular/cli
 Clone the repository (or download the project files), then install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Start the local development server:
