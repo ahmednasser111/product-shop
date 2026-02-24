@@ -1,59 +1,98 @@
 # ProductShop
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+ProductShop is a small Angular application used for practicing core frontend concepts such as components, data binding, routing, and basic state management in a simple e‑commerce style UI.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
+
+- **Product listing**: Display a list/grid of products with basic information.
+- **Product details**: Navigate to a dedicated page to see more details about a product.
+- **Cart‑like behavior** (optional, depending on your exercises): Add/remove products and show a running total.
+- **Angular best practices**: Uses components, services, and routing configured via the Angular CLI.
+
+_Note: The exact feature set may vary slightly depending on the exercise or lab instructions you are following._
+
+---
+
+## Prerequisites
+
+- **Node.js**: v18+ (LTS recommended)
+- **npm**: v9+ (installed with Node)
+- **Angular CLI**: v21.1.4 or compatible
+
+Install Angular CLI globally if you don’t already have it:
+
+```bash
+npm install -g @angular/cli
+```
+
+---
+
+## Getting started
+
+Clone the repository (or download the project files), then install dependencies:
+
+```bash
+npm install
+```
+
+Start the local development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open your browser at `http://localhost:4200/`. The app will automatically reload when you change any source files.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Common commands
 
-```bash
-ng generate component component-name
-```
+- **Development server**
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+  ```bash
+  ng serve
+  ```
 
-```bash
-ng generate --help
-```
+- **Build for production**
 
-## Building
+  ```bash
+  ng build
+  ```
 
-To build the project run:
+  The build artifacts are stored in the `dist/` directory and optimized for performance.
 
-```bash
-ng build
-```
+- **Run unit tests** (Vitest)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+  ```bash
+  ng test
+  ```
 
-## Running unit tests
+- **Run end‑to‑end tests**
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+  ```bash
+  ng e2e
+  ```
 
-```bash
-ng test
-```
+  Angular CLI does not ship an e2e framework by default; configure the one required by your course or project.
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Project structure (high level)
 
-```bash
-ng e2e
-```
+Typical important folders and files:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- `src/app` – application modules, components, services, and routing.
+- `src/app/components` – presentational and feature components (e.g. product list, product card).
+- `src/app/services` – injectable services such as product data or cart logic.
+- `src/assets` – static assets (images, JSON data, etc.).
 
-## Additional Resources
+Your specific structure may include extra folders created during the exercises.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Additional resources
+
+- **Angular CLI reference**: [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
+- **Angular docs**: [Angular documentation](https://angular.dev/)
