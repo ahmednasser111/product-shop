@@ -1,4 +1,4 @@
-@if (product) {
+@if (product(); as currentProduct) {
   <div class="min-h-screen bg-slate-100 dark:bg-gray-900 transition-colors">
     <div class="max-w-4xl mx-auto px-4 py-10">
 
@@ -6,8 +6,8 @@
 
         <div class="md:w-1/2 h-64 md:h-auto overflow-hidden">
           <img
-            [src]="product!.image"
-            [alt]="product!.name"
+            [src]="currentProduct.image"
+            [alt]="currentProduct.name"
             class="w-full h-full object-cover" />
         </div>
 
@@ -16,25 +16,25 @@
 
           <!-- Category badge -->
           <span class="self-start bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
-            {{ product!.category }}
+            {{ currentProduct.category }}
           </span>
 
           <!-- Name -->
           <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">
-            {{ product!.name }}
+            {{ currentProduct.name }}
           </h1>
 
           <!-- Rating -->
-          <p class="text-amber-400 text-xl tracking-widest">{{ '⭐'.repeat(product!.rating) + '☆'.repeat(5 - product!.rating) }}</p>
+          <p class="text-amber-400 text-xl tracking-widest">{{ '⭐'.repeat(currentProduct.rating) + '☆'.repeat(5 - currentProduct.rating) }}</p>
 
           <!-- Description -->
           <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
-            {{ product!.description }}
+            {{ currentProduct.description }}
           </p>
 
           <!-- Price -->
           <p class="text-4xl font-extrabold text-gray-900 dark:text-white">
-            ${{ product!.price }}
+            ${{ currentProduct.price }}
           </p>
 
           <app-buy-button

@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { IProduct } from '../../models/product.model';
-import { PRODUCTS } from '../../data/product.data';
 import { BuyButton } from '../../components/buy-button/buy-button';
 import { ProductService } from '../../services/product.service';
 
@@ -11,21 +10,45 @@ import { ProductService } from '../../services/product.service';
   imports: [BuyButton],
   templateUrl: './product.html',
 })
-export class Product {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+export class Product implements OnInit {
+
+  id = input<string>();
+
+  private router         = inject(Router);
   private productService = inject(ProductService);
 
-  product: IProduct | undefined;
+  product = signal<IProduct | undefined>(undefined);
+  isLoading = signal<boolean>(true);
 
   ngOnInit(): void {
-    this.product = this.productService.getById(+this.route.snapshot.params['id']);
-    if (!this.product) {
+    const productId = this.id();
+    
+    if (!productId) {
       this.router.navigate(['/products']);
+      return;
     }
+
+    this.isLoading.set(true);
+    this.productService.getById(+productId).subscribe({
+      next: (product) => {
+        this.product.set(product);
+        this.isLoading.set(false);
+        if (!product) {
+          this.router.navigate(['/products']);
+        }
+      },
+      error: () => {
+        this.isLoading.set(false);
+        this.router.navigate(['/products']);
+      }
+    });
   }
+
   onBuy = () => {
-    alert(`You added ${this.product?.name} to cart`);
-    console.log(this.product);
+    const currentProduct = this.product();
+    if (currentProduct) {
+      alert(`You added ${currentProduct.name} to cart`);
+      console.log(currentProduct);
+    }
   }
 }

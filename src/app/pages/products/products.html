@@ -11,22 +11,37 @@
     
     <app-filter-bar (filterChanged)="onFilterChanged($event)" />
 
-    <app-total-price [products]="filteredProducts" />
+    <app-total-price [products]="filteredProducts()" />
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (product of filteredProducts; track product.id) {
-        <app-product-card
-          [product]="product"
-          (clickedProductId)="onProductClicked($event)"
-          (editProductId)="onEditProduct($event)"
-          (deleteProductId)="onDeleteProduct($event)" />
-      }
-      @if (filteredProducts.length === 0) {
-        <p class="col-span-full text-center text-gray-400 dark:text-gray-500 py-16 text-lg">
-          No products match your filters.
-        </p>
-      }
-    </div>
+    @if (isLoading()) {
+      <div class="flex flex-col items-center justify-center py-24 gap-4">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
+        <p class="text-gray-500 dark:text-gray-400 font-medium font-sans">Loading products...</p>
+      </div>
+    } @else if (error()) {
+      <div class="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 text-red-600 dark:text-red-400 p-8 rounded-2xl text-center my-10 flex flex-col items-center gap-4 transition-colors">
+        <span class="text-4xl">⚠️</span>
+        <p class="font-bold text-lg">{{ error() }}</p>
+        <button (click)="loadProducts()" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-all cursor-pointer shadow-md">
+          Try Again
+        </button>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (product of filteredProducts(); track product.id) {
+          <app-product-card
+            [product]="product"
+            (clickedProductId)="onProductClicked($event)"
+            (editProductId)="onProductEdited($event)"
+            (deleteProductId)="onProductDeleted($event)" />
+        }
+        @if (filteredProducts().length === 0) {
+          <p class="col-span-full text-center text-gray-400 dark:text-gray-500 py-24 text-lg italic bg-white/50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+            No products match your filters.
+          </p>
+        }
+      </div>
+    }
 
   </div>
 </div>
