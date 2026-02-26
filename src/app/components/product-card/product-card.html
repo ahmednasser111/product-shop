@@ -1,6 +1,7 @@
 <!-- make the card with limited width and height -->
-<div class="bg-white rounded-2xl overflow-hidden flex flex-col h-full"
-     appCardShadow>
+<div class="bg-white rounded-2xl overflow-hidden flex flex-col h-full cursor-pointer"
+     appCardShadow
+     (click)="onClick()">
 
   <div class="overflow-hidden h-48 relative">
 	<img
@@ -27,11 +28,23 @@
       <span class="text-xl font-extrabold text-gray-900">${{ product.price }}</span>
       <div class="flex-1">
         <app-buy-button
-		  title="Add to Cart"
+		      title="Add to Cart"
           color="#4f46e5"
-          [fun]="onClick" />
+          [fun]="onBuy" />
       </div>
     </div>
 
-  </div>
+    <div class="flex gap-2 align-center justify-center">
+        <button
+          (click)="onEdit()"
+          class="px-3 py-1.5 rounded-lg bg-amber-100 text-amber-600 text-xs font-semibold hover:bg-amber-200 transition-colors cursor-pointer flex-1 z-10">
+          ✏️ Edit
+        </button>
+        <button
+          (click)="onDelete()"
+          class="px-3 py-1.5 rounded-lg bg-red-100 text-red-500 text-xs font-semibold hover:bg-red-200 transition-colors cursor-pointer flex-1 z-10">
+          🗑 Delete
+        </button>
+      </div>
+    </div>
 </div>
