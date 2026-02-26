@@ -1,0 +1,32 @@
+<div class="min-h-screen bg-slate-100">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-extrabold text-gray-900">All Products</h1>
+      <a
+        routerLink="/products/add"
+        class="bg-indigo-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors text-sm">
+        ➕ Add Product
+      </a>
+    </div>
+    
+    <app-filter-bar (filterChanged)="onFilterChanged($event)" />
+
+    <app-total-price [products]="filteredProducts" />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (product of filteredProducts; track product.id) {
+        <app-product-card
+          [product]="product"
+          (clickedProductId)="onProductClicked($event)"
+          (editProductId)="onEditProduct($event)"
+          (deleteProductId)="onDeleteProduct($event)" />
+      }
+      @if (filteredProducts.length === 0) {
+        <p class="col-span-full text-center text-gray-400 py-16 text-lg">
+          No products match your filters.
+        </p>
+      }
+    </div>
+
+  </div>
+</div>

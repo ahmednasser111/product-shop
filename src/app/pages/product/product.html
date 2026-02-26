@@ -1,0 +1,50 @@
+@if (product) {
+  <div class="min-h-screen bg-slate-100">
+    <div class="max-w-4xl mx-auto px-4 py-10">
+
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
+
+        <div class="md:w-1/2 h-64 md:h-auto overflow-hidden">
+          <img
+            [src]="product!.image"
+            [alt]="product!.name"
+            class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Info -->
+        <div class="md:w-1/2 p-8 flex flex-col gap-4">
+
+          <!-- Category badge -->
+          <span class="self-start bg-indigo-100 text-indigo-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
+            {{ product!.category }}
+          </span>
+
+          <!-- Name -->
+          <h1 class="text-3xl font-extrabold text-gray-900">
+            {{ product!.name }}
+          </h1>
+
+          <!-- Rating -->
+          <p class="text-amber-400 text-xl tracking-widest">{{ '⭐'.repeat(product!.rating) + '☆'.repeat(5 - product!.rating) }}</p>
+
+          <!-- Description -->
+          <p class="text-gray-500 leading-relaxed text-sm">
+            {{ product!.description }}
+          </p>
+
+          <!-- Price -->
+          <p class="text-4xl font-extrabold text-gray-900">
+            ${{ product!.price }}
+          </p>
+
+          <app-buy-button
+            title="Add to Cart"
+            color="#4f46e5"
+            [fun]="onBuy" />
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

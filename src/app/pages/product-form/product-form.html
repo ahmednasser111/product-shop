@@ -1,0 +1,155 @@
+<div class="min-h-screen bg-slate-100">
+  <div class="max-w-2xl mx-auto px-4 py-10">
+
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        {{ isEditMode ? '✏️ Edit Product' : '➕ Add Product' }}
+      </h1>
+      <button
+        (click)="onCancel()"
+        class="text-gray-400 hover:text-gray-600 transition-colors text-sm">
+        ← Back
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"
+          class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+          Product Name
+        </label>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="e.g. Wireless Headphones"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+          [class.border-red-400]="name.invalid && name.touched"
+          [class.border-gray-200]="!(name.invalid && name.touched)" />
+        @if (name.invalid && name.touched) {
+          @if (name.errors?.['required']) {
+            <p class="text-red-500 text-xs mt-1">Name is required</p>
+          }
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+          Description
+        </label>
+        <textarea
+          formControlName="description"
+          placeholder="Describe the product..."
+          rows="3"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors resize-none"
+          [class.border-red-400]="description.invalid && description.touched"
+          [class.border-gray-200]="!(description.invalid && description.touched)">
+        </textarea>
+        @if (description.invalid && description.touched) {
+          @if (description.errors?.['required']) {
+            <p class="text-red-500 text-xs mt-1">Description is required</p>
+          }
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Price ($)
+          </label>
+          <input
+            type="number"
+            formControlName="price"
+            placeholder="0"
+            min="0"
+            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+            [class.border-red-400]="price.invalid && price.touched"
+            [class.border-gray-200]="!(price.invalid && price.touched)" />
+          @if (price.invalid && price.touched) {
+            @if (price.errors?.['required']) {
+              <p class="text-red-500 text-xs mt-1">Price is required</p>
+            }
+            @if (price.errors?.['min']) {
+              <p class="text-red-500 text-xs mt-1">Price must be 0 or more</p>
+            }
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Rating (1–5)
+          </label>
+          <input
+            type="number"
+            formControlName="rating"
+            placeholder="1-5"
+            min="1"
+            max="5"
+            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+            [class.border-red-400]="rating.invalid && rating.touched"
+            [class.border-gray-200]="!(rating.invalid && rating.touched)" />
+          @if (rating.invalid && rating.touched) {
+            @if (rating.errors?.['required']) {
+              <p class="text-red-500 text-xs mt-1">Rating is required</p>
+            }
+            @if (rating.errors?.['min'] || rating.errors?.['max']) {
+              <p class="text-red-500 text-xs mt-1">Rating must be between 1 and 5</p>
+            }
+          }
+        </div>
+
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+          Category
+        </label>
+        <select
+          formControlName="category"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white"
+          [class.border-red-400]="category.invalid && category.touched"
+          [class.border-gray-200]="!(category.invalid && category.touched)">
+          <option value="">Select category...</option>
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+        @if (category.invalid && category.touched) {
+          <p class="text-red-500 text-xs mt-1">Category is required</p>
+        }
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-1">
+          Image URL
+        </label>
+        <input
+          type="text"
+          formControlName="image"
+          placeholder="https://..."
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+          [class.border-red-400]="image.invalid && image.touched"
+          [class.border-gray-200]="!(image.invalid && image.touched)" />
+        @if (image.invalid && image.touched) {
+          <p class="text-red-500 text-xs mt-1">Image URL is required</p>
+        }
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button
+          type="submit"
+          class="flex-1 bg-indigo-600 text-white py-2 rounded-xl font-semibold hover:bg-indigo-700 transition-colors">
+          {{ isEditMode ? 'Save Changes' : 'Add Product' }}
+        </button>
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-6 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
