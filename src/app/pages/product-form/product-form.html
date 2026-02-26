@@ -1,31 +1,32 @@
-<div class="min-h-screen bg-slate-100">
+<div class="min-h-screen bg-slate-100 dark:bg-gray-900 transition-colors">
   <div class="max-w-2xl mx-auto px-4 py-10">
 
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-3xl font-extrabold text-gray-900">
+      <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">
         {{ isEditMode ? '✏️ Edit Product' : '➕ Add Product' }}
       </h1>
       <button
         (click)="onCancel()"
-        class="text-gray-400 hover:text-gray-600 transition-colors text-sm">
+        class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors text-sm">
         ← Back
       </button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()"
-          class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
+          class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm flex flex-col gap-5 transition-colors">
 
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Product Name
         </label>
         <input
           type="text"
           formControlName="name"
           placeholder="e.g. Wireless Headphones"
-          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           [class.border-red-400]="name.invalid && name.touched"
-          [class.border-gray-200]="!(name.invalid && name.touched)" />
+          [class.border-gray-200]="!(name.invalid && name.touched)"
+          [class.dark:border-gray-600]="!(name.invalid && name.touched)" />
         @if (name.invalid && name.touched) {
           @if (name.errors?.['required']) {
             <p class="text-red-500 text-xs mt-1">Name is required</p>
@@ -34,16 +35,17 @@
       </div>
 
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Description
         </label>
         <textarea
           formControlName="description"
           placeholder="Describe the product..."
           rows="3"
-          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors resize-none"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           [class.border-red-400]="description.invalid && description.touched"
-          [class.border-gray-200]="!(description.invalid && description.touched)">
+          [class.border-gray-200]="!(description.invalid && description.touched)"
+          [class.dark:border-gray-600]="!(description.invalid && description.touched)">
         </textarea>
         @if (description.invalid && description.touched) {
           @if (description.errors?.['required']) {
@@ -54,7 +56,7 @@
 
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Price ($)
           </label>
           <input
@@ -62,9 +64,10 @@
             formControlName="price"
             placeholder="0"
             min="0"
-            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             [class.border-red-400]="price.invalid && price.touched"
-            [class.border-gray-200]="!(price.invalid && price.touched)" />
+            [class.border-gray-200]="!(price.invalid && price.touched)"
+            [class.dark:border-gray-600]="!(price.invalid && price.touched)" />
           @if (price.invalid && price.touched) {
             @if (price.errors?.['required']) {
               <p class="text-red-500 text-xs mt-1">Price is required</p>
@@ -76,7 +79,7 @@
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
+          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Rating (1–5)
           </label>
           <input
@@ -85,9 +88,10 @@
             placeholder="1-5"
             min="1"
             max="5"
-            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
             [class.border-red-400]="rating.invalid && rating.touched"
-            [class.border-gray-200]="!(rating.invalid && rating.touched)" />
+            [class.border-gray-200]="!(rating.invalid && rating.touched)"
+            [class.dark:border-gray-600]="!(rating.invalid && rating.touched)" />
           @if (rating.invalid && rating.touched) {
             @if (rating.errors?.['required']) {
               <p class="text-red-500 text-xs mt-1">Rating is required</p>
@@ -101,14 +105,15 @@
       </div>
 
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Category
         </label>
         <select
           formControlName="category"
-          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           [class.border-red-400]="category.invalid && category.touched"
-          [class.border-gray-200]="!(category.invalid && category.touched)">
+          [class.border-gray-200]="!(category.invalid && category.touched)"
+          [class.dark:border-gray-600]="!(category.invalid && category.touched)">
           <option value="">Select category...</option>
           @for (cat of categories; track cat) {
             <option [value]="cat">{{ cat }}</option>
@@ -120,16 +125,17 @@
       </div>
 
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
           Image URL
         </label>
         <input
           type="text"
           formControlName="image"
           placeholder="https://..."
-          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           [class.border-red-400]="image.invalid && image.touched"
-          [class.border-gray-200]="!(image.invalid && image.touched)" />
+          [class.border-gray-200]="!(image.invalid && image.touched)"
+          [class.dark:border-gray-600]="!(image.invalid && image.touched)" />
         @if (image.invalid && image.touched) {
           <p class="text-red-500 text-xs mt-1">Image URL is required</p>
         }
@@ -144,7 +150,7 @@
         <button
           type="button"
           (click)="onCancel()"
-          class="px-6 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
+          class="px-6 py-2 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
           Cancel
         </button>
       </div>

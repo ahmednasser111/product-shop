@@ -6,9 +6,10 @@ import { RouterOutlet } from '@angular/router';
   
   imports: [RouterOutlet],
   template: `
-    <div class="min-h-screen bg-slate-100 flex items-center justify-center">
+    <div class="min-h-screen bg-slate-100 dark:bg-gray-900 flex items-center justify-center transition-colors">
       <router-outlet />
     </div>
   `,
 })
 export class AuthLayout {}
+

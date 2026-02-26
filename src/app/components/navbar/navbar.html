@@ -1,4 +1,4 @@
-<nav class="bg-gray-900 text-white shadow-lg">
+<nav class="bg-gray-900 dark:bg-gray-950 text-white shadow-lg transition-colors">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
 
     <!-- Logo -->
@@ -19,28 +19,48 @@
           </a>
         </li>
       }
+
+      <!-- Theme toggle -->
+      <li>
+        <button
+          (click)="themeService.toggle()"
+          class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
+          [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+          {{ themeService.isDark() ? '☀️' : '🌙' }}
+        </button>
+      </li>
     </ul>
 
     <!-- Mobile hamburger -->
-    <button
-      class="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
-      (click)="toggleMenu()"
-      aria-label="Toggle menu">
-      <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-            [class.rotate-45]="menuOpen"
-            [class.translate-y-2]="menuOpen"></span>
-      <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-            [class.opacity-0]="menuOpen"></span>
-      <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-            [class.-rotate-45]="menuOpen"
-            [class.-translate-y-2]="menuOpen"></span>
-    </button>
+    <div class="md:hidden flex items-center gap-2">
+      <!-- Mobile theme toggle -->
+      <button
+        (click)="themeService.toggle()"
+        class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+        {{ themeService.isDark() ? '☀️' : '🌙' }}
+      </button>
+
+      <button
+        class="flex flex-col gap-1.5 p-2 cursor-pointer"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu">
+        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
+              [class.rotate-45]="menuOpen"
+              [class.translate-y-2]="menuOpen"></span>
+        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
+              [class.opacity-0]="menuOpen"></span>
+        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
+              [class.-rotate-45]="menuOpen"
+              [class.-translate-y-2]="menuOpen"></span>
+      </button>
+    </div>
 
   </div>
 
   <!-- Mobile menu -->
   @if (menuOpen) {
-    <div class="md:hidden border-t border-gray-700 px-4 py-3 flex flex-col gap-3">
+    <div class="md:hidden border-t border-gray-700 dark:border-gray-600 px-4 py-3 flex flex-col gap-3">
       @for (link of links; track link.path) {
         <a
           [routerLink]="link.path"
