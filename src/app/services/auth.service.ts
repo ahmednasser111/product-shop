@@ -16,9 +16,10 @@ export class UserAuth {
   }
 
   isLogged  = (): boolean => !!this.getUser();
+  isAuth    = (): boolean => this.isLogged();
   isAdmin   = (): boolean => this.getUser()?.role === 'admin';
 
-  LogIn(email: string, password: string): Observable<IUser> {
+  login(email: string, password: string): Observable<IUser> {
     return this.http
       .get<IUser[]>(`${this.url}?email=${email}&password=${password}`)
       .pipe(
@@ -30,7 +31,7 @@ export class UserAuth {
       );
   }
 
-  Register(name: string, email: string, password: string): Observable<IUser> {
+  register(name: string, email: string, password: string): Observable<IUser> {
     return this.http
       .post<IUser>(this.url, { name, email, password, role: 'user' })
       .pipe(
@@ -38,7 +39,7 @@ export class UserAuth {
       );
   }
 
-  LogOut(): void {
+  logout(): void {
     localStorage.removeItem('user');
   }
 }

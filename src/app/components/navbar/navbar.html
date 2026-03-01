@@ -1,13 +1,12 @@
 <nav class="bg-gray-900 dark:bg-gray-950 text-white shadow-lg transition-colors">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
 
-    <!-- Logo -->
     <a routerLink="/" class="text-xl font-extrabold tracking-tight text-indigo-400 hover:text-indigo-300 transition-colors">
       🛍️ ShopApp
     </a>
 
-    <!-- Desktop links -->
     <ul class="hidden md:flex items-center gap-8">
+
       @for (link of links; track link.path) {
         <li>
           <a
@@ -19,8 +18,6 @@
           </a>
         </li>
       }
-
-      <!-- Theme toggle -->
       <li>
         <button
           (click)="themeService.toggle()"
@@ -29,11 +26,26 @@
           {{ themeService.isDark() ? '☀️' : '🌙' }}
         </button>
       </li>
+
+      
+        <li class="flex items-center gap-3">
+          <span class="text-sm text-gray-400">
+            {{ auth.getUser()?.name }}
+            <span class="ml-1 text-xs font-bold px-2 py-0.5 rounded-full"
+                  [class.bg-indigo-500]="auth.isAdmin()"
+                  [class.bg-gray-600]="!auth.isAdmin()">
+              {{ auth.getUser()?.role }}
+            </span>
+          </span>
+          <button
+            (click)="logout()"
+            class="text-sm text-gray-400 hover:text-white transition-colors">
+            Logout
+          </button>
+        </li>
     </ul>
 
-    <!-- Mobile hamburger -->
     <div class="md:hidden flex items-center gap-2">
-      <!-- Mobile theme toggle -->
       <button
         (click)="themeService.toggle()"
         class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
@@ -58,9 +70,9 @@
 
   </div>
 
-  <!-- Mobile menu -->
   @if (menuOpen) {
     <div class="md:hidden border-t border-gray-700 dark:border-gray-600 px-4 py-3 flex flex-col gap-3">
+
       @for (link of links; track link.path) {
         <a
           [routerLink]="link.path"
@@ -71,6 +83,16 @@
           {{ link.label }}
         </a>
       }
+
+      
+        <div class="flex items-center justify-between pt-2 border-t border-gray-700">
+          <span class="text-sm text-gray-400">{{ auth.getUser()?.name }}</span>
+          <button (click)="logout()"
+                  class="text-sm text-red-400 hover:text-red-300 transition-colors">
+            Logout
+          </button>
+        </div>
+
     </div>
   }
 

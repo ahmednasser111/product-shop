@@ -8,6 +8,6 @@ export const adminGuard: CanActivateFn = () => {
 
   if (auth.isAdmin()) return true;
 
-  router.navigate(['/login']);
+  router.navigate(['/']);
   return false;
 };

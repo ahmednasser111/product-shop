@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { IProduct } from '../../models/product.model';
 import { TruncatePipe } from '../../pipes/truncate-pipe';
 import { BuyButton } from '../buy-button/buy-button';
 import { CardShadowDirective } from '../../directives/card-shadow';
 import { ZoomImageDirective } from '../../directives/zoom-image';
+import { UserAuth } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -11,6 +12,8 @@ import { ZoomImageDirective } from '../../directives/zoom-image';
   templateUrl: './product-card.html',
 })
 export class ProductCard {
+  protected auth = inject(UserAuth);
+
   @Input() product: IProduct = {id: 0, name: '', description: '', price: 0, rating: 0, category: '', image: ''} ;
   details : boolean = false;
   @Output() clickedProductId = new EventEmitter<number>();
