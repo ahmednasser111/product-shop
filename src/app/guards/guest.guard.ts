@@ -1,15 +1,20 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+
 import { UserAuth } from '../services/auth.service';
+import { map } from 'rxjs';
 
 export const guestGuard: CanActivateFn = () => {
   const auth = inject(UserAuth);
   const router = inject(Router);
 
-  if (!auth.isAuth()) {
-    return true;
-  }
-
-  router.navigate(['/']);
-  return false;
-}
+  return auth.isLogged().pipe(
+    map((isLogged) => {
+      if (!isLogged) {
+        return true;
+      }
+      router.navigate(['/']);
+      return false;
+    }),
+  );
+};
