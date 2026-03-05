@@ -10,13 +10,16 @@ import {
   browserLocalPersistence,
   setPersistence,
   signOut,
+  GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithPopup,
 } from 'firebase/auth';
 
 @Injectable({ providedIn: 'root' })
 export class UserAuth {
   private http = inject(HttpClient);
   private url = `${API}/users`;
+  private apiUrl = `http://localhost:3000`;
 
   constructor() {}
 
@@ -45,32 +48,61 @@ export class UserAuth {
   // isAuth = (): boolean => this.isLogged();
   isAdmin = (): boolean => this.getUser()?.role === 'admin';
 
+  signInWithGoogle(): Observable<IUser | null> {
+    return new Observable<IUser | null>((subscriber) => {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const user = result.user;
+          this.createUser(user.uid, user.displayName ?? '-', user.email ?? '-');
+          subscriber.next({
+            id: 1,
+            name: user.displayName ?? '-',
+            email: user.email ?? '-',
+            password: '',
+            role: 'user',
+          });
+          subscriber.complete();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          const email = error.email;
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          subscriber.error(error);
+        });
+    });
+  }
+
   login(email: string, password: string): Observable<IUser> {
     const auth = getAuth();
 
     return new Observable<IUser>((subscriber) => {
-      setPersistence(auth, browserLocalPersistence)
-        .then(() => {
-          return signInWithEmailAndPassword(auth, email, password);
-        })
-        .then((userCredential) => {
-          const user: IUser = {
-            id: 1,
-            name: userCredential.user?.displayName ?? '-',
-            email,
-            password,
-            role: 'user',
-          };
+      try {
+        setPersistence(auth, browserLocalPersistence).then(async () => {
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user: IUser = {
+              id: 1,
+              name: userCredential.user?.displayName ?? '-',
+              email,
+              password,
+              role: 'user',
+            };
 
-          subscriber.next(user);
-          subscriber.complete();
+            subscriber.next(user);
+            subscriber.complete();
 
-          console.log(auth.currentUser);
-        })
-        .catch((error) => {
-          console.error(error);
-          subscriber.error(error);
+            console.log(auth.currentUser);
+          } catch (error) {
+            subscriber.error(error);
+          }
         });
+      } catch (error) {
+        subscriber.error(error);
+      }
     });
   }
 
@@ -79,8 +111,10 @@ export class UserAuth {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const user: IUser = { id: 1, name, email, password, role: 'user' };
+          this.createUser(userCredential.user?.uid ?? '', name, email);
+          const user: IUser = { id: 1, name: name, email: email, password: '', role: 'user' };
           subscriber.next(user);
+          subscriber.complete();
         })
         .catch((error) => {
           console.error(error);
@@ -89,7 +123,21 @@ export class UserAuth {
     return userObservable;
   }
 
-  logout(): void {
-    signOut(getAuth());
+  async logout(): Promise<void> {
+    await signOut(getAuth());
+  }
+
+  async createUser(id: string, name: string, email: string) {
+    fetch(`${this.apiUrl}/create_user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        name,
+        email,
+      }),
+    });
   }
 }

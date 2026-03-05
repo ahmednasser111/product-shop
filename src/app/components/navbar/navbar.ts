@@ -11,12 +11,12 @@ import { UserAuth } from '../../services/auth.service';
 })
 export class Navbar {
   themeService = inject(ThemeService);
-  auth         = inject(UserAuth);
+  auth = inject(UserAuth);
   private router = inject(Router);
 
   links = [
-    { label: 'Home',      path: '/'          },
-    { label: 'Products',  path: '/products'  },
+    { label: 'Home', path: '/' },
+    { label: 'Products', path: '/products' },
   ];
 
   menuOpen = false;
@@ -27,6 +27,6 @@ export class Navbar {
 
   logout(): void {
     this.auth.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 }
