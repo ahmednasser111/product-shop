@@ -1,0 +1,63 @@
+<!-- <div id="verification-cont">
+  <h1>Check your email</h1>
+  <p>We've sent a verification link to your email address.</p>
+  <p>Click the link in the email to verify your account and get started.</p>
+  <div id="instruction-box"></div>
+  <p><span>1</span>Open your email inbox.</p>
+  <p><span>2</span>Find the email from us and click the verification link.</p>
+  <p><span>3</span>You're all set! Your account will be verified.</p>
+</div> -->
+<div class="flex min-h-screen items-center justify-center bg-background px-4">
+  <div class="w-full max-w-md text-center">
+    <div class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+      <!-- <Mail class="h-10 w-10 text-primary" /> -->
+    </div>
+    <h1 class="mb-3 text-3xl font-bold tracking-tight text-foreground">Check your email</h1>
+    <p class="mb-2 text-base text-muted-foreground">
+      We've sent a verification link to your email address.
+    </p>
+    <p class="mb-8 text-sm text-muted-foreground">
+      Click the link in the email to verify your account and get started.
+    </p>
+    <div class="mb-8 rounded-xl border border-border bg-secondary/50 p-5 text-left">
+      <div class="flex items-start gap-3 mb-4">
+        <div
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold"
+        >
+          1
+        </div>
+        <p class="text-sm text-foreground">Open your email inbox</p>
+      </div>
+      <div class="flex items-start gap-3 mb-4">
+        <div
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold"
+        >
+          2
+        </div>
+        <p class="text-sm text-foreground">
+          Find the email from us and click the verification link
+        </p>
+      </div>
+      <div class="flex items-start gap-3">
+        <div
+          class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold"
+        >
+          3
+        </div>
+        <p class="text-sm text-foreground">You're all set! Your account will be verified</p>
+      </div>
+    </div>
+
+    <button
+      (click)="handleResend()"
+      [disabled]="resending"
+      class="w-full mb-4 h-12 text-base font-semibold"
+    >
+      {{ resending ? 'Sending…' : 'Resend verification email' }}
+    </button>
+
+    <p class="text-xs text-muted-foreground">
+      Didn't receive the email? Check your spam folder or try resending.
+    </p>
+  </div>
+</div>
