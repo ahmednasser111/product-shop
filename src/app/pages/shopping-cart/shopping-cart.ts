@@ -6,6 +6,8 @@ import { RouterLink } from '@angular/router';
 import { Observable, pipe } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { IProduct } from '../../models/product.model';
+import { UserAuth } from '../../services/auth.service';
+import { ShoppingCartService } from '../../services/shopping-cart-service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -15,9 +17,20 @@ import { IProduct } from '../../models/product.model';
 })
 export class ShoppingCart implements OnInit, OnChanges {
   // private productService = inject(ProductService);
+  private authService = inject(UserAuth);
+  private shCrtService = inject(ShoppingCartService);
+
   cartList: { [key: string]: number }[] = [{ id1: 2 }, { id2: 5 }, { id3: 500 }];
+  usrId: string | null = '';
+  cart: any;
   // prdList: IProduct[] = [];
   ngOnInit(): void {
+    this.usrId = this.authService.getId();
+    this.cart = this.shCrtService.getByUsrId(this.usrId).subscribe({
+      next: (data) => {
+        console.log({ data });
+      },
+    });
     // this.productService.getAll().subscribe({
     //   next: (products) => {
     //     this.prdList = products;
