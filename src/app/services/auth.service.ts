@@ -171,7 +171,7 @@ export class UserAuth {
   }
 
   async createUser(id: string, name: string, email: string, role: Role): Promise<IUser | null> {
-    const res = await fetch(`${this.apiUrl}/user`, {
+    const res = await fetch(`${this.apiUrl}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export class UserAuth {
   }
 
   async getUserById(id: string): Promise<IUser | null> {
-    const res = await fetch(`${this.apiUrl}/user/${id}`, {
+    const res = await fetch(`${this.apiUrl}/users/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

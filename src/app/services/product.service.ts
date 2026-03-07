@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { IProduct } from '../models/product.model';
 import { map } from 'rxjs/operators';
 import { UserAuth } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,7 @@ import { UserAuth } from './auth.service';
 export class ProductService {
   private http = inject(HttpClient);
   private auth = inject(UserAuth);
-  // private baseUrl = API;
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = environment.apiUrl;
 
   getAll = (): Observable<IProduct[]> => this.http.get<IProduct[]>(`${this.baseUrl}/products`);
 
