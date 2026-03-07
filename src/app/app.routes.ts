@@ -62,6 +62,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/shopping-cart/shopping-cart').then((m) => m.ShoppingCart),
       },
+      {
+        path: 'checkout',
+        // canActivate: [authGuard, adminGuard, verificationGuard],
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () => import('./pages/checkout/checkout').then((m) => m.Checkout),
+      },
     ],
   },
 
