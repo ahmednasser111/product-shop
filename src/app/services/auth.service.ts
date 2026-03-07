@@ -77,6 +77,7 @@ export class UserAuth {
             firebaseUser.uid,
             firebaseUser.displayName ?? '-',
             firebaseUser.email ?? '-',
+            'user',
           );
           if (user) {
             this.user = user;
@@ -122,8 +123,6 @@ export class UserAuth {
             this.user = user;
             subscriber.next(user);
             subscriber.complete();
-
-            console.log(auth.currentUser);
           } catch (error) {
             subscriber.error(error);
           }
@@ -139,7 +138,7 @@ export class UserAuth {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          this.createUser(userCredential.user?.uid ?? '', name, email);
+          this.createUser(userCredential.user?.uid ?? '', name, email, role);
           const user: IUser = {
             id: 1,
             name: name,
@@ -158,11 +157,20 @@ export class UserAuth {
     return userObservable;
   }
 
+  async getToken(): Promise<string | null> {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      return await user.getIdToken();
+    }
+    return null;
+  }
+
   async logout(): Promise<void> {
     await signOut(getAuth());
   }
 
-  async createUser(id: string, name: string, email: string): Promise<IUser | null> {
+  async createUser(id: string, name: string, email: string, role: Role): Promise<IUser | null> {
     const res = await fetch(`${this.apiUrl}/user`, {
       method: 'POST',
       headers: {
@@ -172,18 +180,28 @@ export class UserAuth {
         id,
         name,
         email,
+        role,
       }),
     });
     if (res.status === 200) {
-      return res.json();
+      const data = await res.json();
+      this.user = data.user;
+      return data.user;
     }
     return null;
   }
 
   async getUserById(id: string): Promise<IUser | null> {
-    const res = await fetch(`${this.apiUrl}/user/${id}`);
+    const res = await fetch(`${this.apiUrl}/user/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     if (res.status === 200) {
-      return res.json();
+      const data = await res.json();
+      this.user = data.user;
+      return data.user;
     }
     return null;
   }
