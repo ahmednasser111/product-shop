@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { IUser } from '../models/user.model';
+import { IUser, Role } from '../models/user.model';
 import { API } from '../../api/api';
 import {
   getAuth,
@@ -137,7 +137,7 @@ export class UserAuth {
     });
   }
 
-  register(name: string, email: string, password: string): Observable<IUser> {
+  register(name: string, email: string, password: string, role: Role): Observable<IUser> {
     const userObservable = new Observable<IUser>((subscriber) => {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password)
@@ -148,7 +148,7 @@ export class UserAuth {
             name: name,
             email: email,
             password: '',
-            role: 'user',
+            role: role,
             isVerified: userCredential.user?.emailVerified ?? false,
           };
           subscriber.next(user);
