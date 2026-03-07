@@ -17,6 +17,7 @@ export class Navbar {
   links = [
     { label: 'Home', path: '/' },
     { label: 'Products', path: '/products' },
+    { label: 'Cart', path: '/shopping-cart' },
   ];
 
   menuOpen = false;
