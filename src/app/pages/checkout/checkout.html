@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-slate-100 dark:bg-gray-900 py-12 px-4">
+  <div
+    class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700"
+  >
+    <div class="bg-indigo-600 p-8 text-white">
+      <h1 class="text-2xl font-extrabold">Order Summary</h1>
+      <p class="text-indigo-100 text-sm opacity-90">Review your items before payment</p>
+    </div>
+
+    <div class="p-8 space-y-6">
+      @for (itemObj of cartList; track $index; let i = $index) {
+        @for (entry of itemObj | keyvalue; track entry.key) {
+          <div class="flex justify-between items-center group">
+            <div class="space-y-1">
+              <h3
+                class="font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors"
+              >
+                <!-- {{ getProductName(entry.key) }} -->
+                {{ 'Product ' + (i + 1) }}
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                {{ getProductName(entry.key) }} <span class="mx-2 text-gray-300">×</span>
+                {{ entry.value }}
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="font-bold text-gray-900 dark:text-white">
+                {{
+                  getProductPrice(entry.key) * entry.value | currency: 'EGP ' : 'symbol' : '1.0-0'
+                }}
+              </p>
+              <p class="text-xs text-gray-400 italic">
+                {{ getProductPrice(entry.key) | currency: 'EGP ' }} / unit
+              </p>
+            </div>
+          </div>
+          <div
+            class="border-b border-dashed border-gray-100 dark:border-gray-700 last:hidden"
+          ></div>
+        }
+      }
+
+      <div class="mt-10 pt-6 border-t-2 border-gray-50 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-6">
+          <span class="text-lg font-bold text-gray-500 dark:text-gray-400">Total Amount</span>
+          <span class="text-3xl font-black text-indigo-600 dark:text-indigo-400">
+            {{ totalPrice | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+          </span>
+        </div>
+
+        <button
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-[0.98]"
+        >
+          Confirm & Pay Now
+        </button>
+
+        <a
+          routerLink="/shopping-cart"
+          class="block text-center mt-4 text-sm font-semibold text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          ← Back to Shopping Cart
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
