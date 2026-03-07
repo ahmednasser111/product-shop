@@ -113,7 +113,7 @@ export class UserAuth {
           try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user: IUser = {
-              id: 1,
+              id: userCredential.user?.uid ?? '',
               name: userCredential.user?.displayName ?? '-',
               email,
               password,
@@ -140,7 +140,7 @@ export class UserAuth {
         .then((userCredential) => {
           this.createUser(userCredential.user?.uid ?? '', name, email, role);
           const user: IUser = {
-            id: 1,
+            id: userCredential.user?.uid ?? '',
             name: name,
             email: email,
             password: '',

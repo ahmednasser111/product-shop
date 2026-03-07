@@ -46,15 +46,15 @@ export class Products implements OnInit {
     });
   }
 
-  onProductClicked(id: number): void {
+  onProductClicked(id: string): void {
     this.router.navigate(['/product', id]);
   }
 
-  onProductEdited(id: number): void {
+  onProductEdited(id: string): void {
     this.router.navigate(['/products/edit', id]);
   }
 
-  onProductDeleted(id: number): void {
+  onProductDeleted(id: string): void {
     this.productService.delete(id).subscribe({
       next: () => {
         this.allProducts.update(prev => prev.filter(p => p.id !== id));

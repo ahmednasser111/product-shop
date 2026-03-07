@@ -15,10 +15,19 @@ export class ProductService {
   private auth = inject(UserAuth);
   private baseUrl = environment.apiUrl;
 
-  getAll = (): Observable<IProduct[]> => this.http.get<IProduct[]>(`${this.baseUrl}/products`);
+  getAll = (): Observable<IProduct[]> =>
+    this.http
+      .get<{ message: string; products: IProduct[]; filters?: any }>(
+        `${this.baseUrl}/products`
+      )
+      .pipe(map((res) => res.products));
 
-  getById = (id: number): Observable<IProduct> =>
-    this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+  getById = (id: string): Observable<IProduct> =>
+    this.http
+      .get<{ message: string; product: IProduct }>(
+        `${this.baseUrl}/products/${id}`
+      )
+      .pipe(map((res) => res.product));
 
   getAllCategories = (): Observable<string[]> =>
     this.http
@@ -40,9 +49,9 @@ export class ProductService {
       });
     });
 
-  delete = (id: number): Observable<void> =>
+  delete = (id: string): Observable<void> =>
     this.http.delete<void>(`${this.baseUrl}/products/${id}`);
 
-  update = (id: number, product: Omit<IProduct, 'id'>): Observable<IProduct> =>
+  update = (id: string, product: Omit<IProduct, 'id'>): Observable<IProduct> =>
     this.http.put<IProduct>(`${this.baseUrl}/products/${id}`, product);
 }
