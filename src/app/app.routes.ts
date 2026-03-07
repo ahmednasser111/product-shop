@@ -61,6 +61,13 @@ export const routes: Routes = [
         canActivate: [authGuard, verificationGuard],
         loadComponent: () => import('./pages/product-form/product-form').then((m) => m.ProductForm),
       },
+      {
+        path: 'shopping-cart',
+        // canActivate: [authGuard, adminGuard, verificationGuard],
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () =>
+          import('./pages/shopping-cart/shopping-cart').then((m) => m.ShoppingCart),
+      },
     ],
   },
 
