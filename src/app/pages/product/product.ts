@@ -29,7 +29,7 @@ export class Product implements OnInit {
     }
 
     this.isLoading.set(true);
-    this.productService.getById(+productId).subscribe({
+    this.productService.getById(productId).subscribe({
       next: (product) => {
         this.product.set(product);
         this.isLoading.set(false);

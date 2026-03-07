@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { IProduct } from '../models/product.model';
 import { map } from 'rxjs/operators';
 import { UserAuth } from './auth.service';
@@ -15,13 +14,27 @@ export class ProductService {
   private auth = inject(UserAuth);
   private baseUrl = environment.apiUrl;
 
-  getAll = (): Observable<IProduct[]> => this.http.get<IProduct[]>(`${this.baseUrl}/products`);
+  getAll = (): Observable<IProduct[]> =>
+    this.http
+      .get<{ message: string; products: IProduct[]; filters?: any }>(`${this.baseUrl}/products`)
+      .pipe(map((res) => res.products));
 
   getBySeller = (id: string): Observable<IProduct[]> =>
-    this.http.get<any>(`${this.baseUrl}/products/seller/${id}`).pipe(map((data) => data.products));
+    this.http.get<any>(`${this.baseUrl}/products/seller/${id}`).pipe(
+      map((data) =>
+        data.products.map((pr: any) => {
+          return {
+            ...pr,
+            id: pr._id,
+          } as IProduct;
+        }),
+      ),
+    );
 
-  getById = (id: number): Observable<IProduct> =>
-    this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
+  getById = (id: string): Observable<IProduct> =>
+    this.http
+      .get<{ product: IProduct }>(`${this.baseUrl}/products/${id}`)
+      .pipe(map((res) => res.product));
 
   getAllCategories = (): Observable<string[]> =>
     this.http
@@ -43,9 +56,31 @@ export class ProductService {
       });
     });
 
-  delete = (id: number): Observable<void> =>
-    this.http.delete<void>(`${this.baseUrl}/products/${id}`);
+  delete = (id: string): Observable<void> =>
+    new Observable<void>((observer) => {
+      this.auth.getToken().then((token) => {
+        this.http
+          .delete<void>(`${this.baseUrl}/products/${id}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .subscribe(observer);
+      });
+    });
 
-  update = (id: number, product: Omit<IProduct, 'id'>): Observable<IProduct> =>
-    this.http.put<IProduct>(`${this.baseUrl}/products/${id}`, product);
+  update = (id: string, product: Omit<IProduct, 'id'>): Observable<IProduct> =>
+    new Observable<IProduct>((observer) => {
+      this.auth.getToken().then((token) => {
+        this.http
+          .put<IProduct>(`${this.baseUrl}/products/${id}`, product, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .subscribe();
+      });
+    });
 }

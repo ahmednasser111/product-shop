@@ -14,11 +14,11 @@ import { UserAuth } from '../../services/auth.service';
 export class ProductCard {
   protected auth = inject(UserAuth);
 
-  @Input() product: IProduct = {id: 0, name: '', description: '', price: 0, rating: 0, category: '', image: ''} ;
+  @Input() product: IProduct = {id: '', name: '', description: '', price: 0, rating: 0, category: '', image: '', stock: 0, sellerId: '', createdAt: '', updatedAt: ''} ;
   details : boolean = false;
-  @Output() clickedProductId = new EventEmitter<number>();
-  @Output() editProductId = new EventEmitter<number>();
-  @Output() deleteProductId = new EventEmitter<number>();
+  @Output() clickedProductId = new EventEmitter<string>();
+  @Output() editProductId = new EventEmitter<string>();
+  @Output() deleteProductId = new EventEmitter<string>();
 
   toggleDetails() {
     this.details = !this.details;

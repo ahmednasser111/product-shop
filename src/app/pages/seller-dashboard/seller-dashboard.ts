@@ -22,17 +22,7 @@ import { UserAuth } from '../../services/auth.service';
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class SellerDashboard {
-  products: IProduct[] = [
-    {
-      id: 1,
-      name: 'test',
-      description: 'testtt',
-      price: 10,
-      image: 'img',
-      rating: 1,
-      category: 'hi',
-    },
-  ];
+  products: IProduct[] = [];
   showModal = false;
   editing = false;
   editingId: number | null = null;
@@ -62,7 +52,15 @@ export class SellerDashboard {
     this.router.navigate([`/products/edit/${productId}`]);
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: string) {
+    this.productsService.delete(id).subscribe({
+      next(value) {
+        console.log(value);
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
     this.products = this.products.filter((p) => p.id !== id);
   }
 }

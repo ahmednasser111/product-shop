@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -68,13 +68,14 @@ export class ProductForm implements OnInit {
     if (this.isEditMode) {
       this.isLoading = true;
 
-      this.productService.getById(Number(this.id())).subscribe({
+      this.productService.getById(this.id()!).subscribe({
         next: (product) => {
+          console.log(product);
           this.form.setValue({
             name: product.name,
             description: product.description,
             price: product.price,
-            rating: product.rating,
+            rating: product.rating ?? 0,
             category: product.category,
             image: product.image,
           });
@@ -103,10 +104,14 @@ export class ProductForm implements OnInit {
       rating: Number(this.form.value.rating),
       category: this.form.value.category!,
       image: this.form.value.image!,
+      stock: 0,
+      sellerId: '',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
     const request$ = this.isEditMode
-      ? this.productService.update(Number(this.id()), formValue)
+      ? this.productService.update(this.id()!, formValue)
       : this.productService.post(formValue);
 
     request$.subscribe({
