@@ -1,0 +1,59 @@
+<div class="p-8 bg-gray-100 min-h-screen">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Products Dashboard</h1>
+
+    <button
+      (click)="goToAddProduct()"
+      class="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
+    >
+      + Add Product
+    </button>
+  </div>
+
+  <!-- Products Table -->
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50 border-b">
+        <tr class="text-gray-600 text-sm">
+          <th class="p-4">ID</th>
+          <th class="p-4">Name</th>
+          <th class="p-4">Price</th>
+          <!-- <th class="p-4">Stock</th> -->
+          <th class="p-4">Rating</th>
+          <th class="p-4">Category</th>
+          <th class="p-4">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (product of products; track product.id) {
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-4">{{ product.id }}</td>
+            <td class="p-4 font-medium">{{ product.name }}</td>
+            <td class="p-4">${{ product.price }}</td>
+            <!-- <td class="p-4">{{ product.stock }}</td> -->
+            <td class="p-4">{{ product.rating }}</td>
+            <td class="p-4">{{ product.category }}</td>
+
+            <td class="p-4 flex gap-2">
+              <button
+                (click)="goToEditProduct(product.id)"
+                class="px-3 py-1 text-sm bg-yellow-400 rounded-lg hover:bg-yellow-500"
+              >
+                Edit
+              </button>
+
+              <button
+                (click)="deleteProduct(product.id)"
+                class="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

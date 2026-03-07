@@ -29,6 +29,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/home/home').then((m) => m.Home),
       },
       {
+        path: 'seller-dashboard',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () =>
+          import('./pages/seller-dashboard/seller-dashboard').then((m) => m.SellerDashboard),
+      },
+      {
         path: 'verify',
         canActivate: [authGuard],
         loadComponent: () =>
@@ -47,12 +53,12 @@ export const routes: Routes = [
 
       {
         path: 'products/add',
-        canActivate: [authGuard, adminGuard, verificationGuard],
+        canActivate: [authGuard, verificationGuard],
         loadComponent: () => import('./pages/product-form/product-form').then((m) => m.ProductForm),
       },
       {
         path: 'products/edit/:id',
-        canActivate: [authGuard, adminGuard, verificationGuard],
+        canActivate: [authGuard, verificationGuard],
         loadComponent: () => import('./pages/product-form/product-form').then((m) => m.ProductForm),
       },
       {

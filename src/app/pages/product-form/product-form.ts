@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -70,11 +70,12 @@ export class ProductForm implements OnInit {
 
       this.productService.getById(this.id()!).subscribe({
         next: (product) => {
+          console.log(product);
           this.form.setValue({
             name: product.name,
             description: product.description,
             price: product.price,
-            rating: product.rating,
+            rating: product.rating ?? 0,
             category: product.category,
             image: product.image,
           });

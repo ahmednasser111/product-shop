@@ -10,4 +10,8 @@ export interface IProduct {
   sellerId: string;
   createdAt: string;
   updatedAt: string;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main
