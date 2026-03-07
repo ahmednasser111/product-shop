@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IProduct } from '../../models/product.model';
 import { Router } from '@angular/router';
+import { ProductService } from '../../services/product.service';
+import { UserAuth } from '../../services/auth.service';
 
 // interface Product {
 //   id: number;
@@ -35,7 +37,22 @@ export class SellerDashboard {
   editing = false;
   editingId: number | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private productsService: ProductService,
+    private auth: UserAuth,
+    private cd: ChangeDetectorRef,
+  ) {
+    productsService.getBySeller(auth.getId()!).subscribe({
+      next: (data) => {
+        this.products = data;
+        this.cd.detectChanges();
+      },
+      error(err) {
+        console.log(err);
+      },
+    });
+  }
 
   goToAddProduct() {
     this.router.navigate(['/products/add']);
@@ -43,10 +60,6 @@ export class SellerDashboard {
 
   goToEditProduct(productId: string) {
     this.router.navigate([`/products/edit/${productId}`]);
-  }
-
-  closeModal() {
-    this.showModal = false;
   }
 
   deleteProduct(id: number) {

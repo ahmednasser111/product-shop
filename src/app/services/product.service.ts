@@ -17,6 +17,9 @@ export class ProductService {
 
   getAll = (): Observable<IProduct[]> => this.http.get<IProduct[]>(`${this.baseUrl}/products`);
 
+  getBySeller = (id: string): Observable<IProduct[]> =>
+    this.http.get<any>(`${this.baseUrl}/products/seller/${id}`).pipe(map((data) => data.products));
+
   getById = (id: number): Observable<IProduct> =>
     this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
 
@@ -30,7 +33,7 @@ export class ProductService {
       this.auth.getToken().then((token) => {
         // console.log(token);
         this.http
-          .put<IProduct>(`${this.baseUrl}/products`, product, {
+          .post<IProduct>(`${this.baseUrl}/products`, product, {
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,

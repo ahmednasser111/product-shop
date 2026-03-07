@@ -166,6 +166,11 @@ export class UserAuth {
     return null;
   }
 
+  getId(): string | null {
+    const auth = getAuth();
+    return auth.currentUser?.uid ?? null;
+  }
+
   async logout(): Promise<void> {
     await signOut(getAuth());
   }
