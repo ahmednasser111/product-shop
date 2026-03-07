@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { IUser, Role } from '../models/user.model';
-import { API } from '../../api/api';
+import { environment } from '../../environments/environment';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,9 +18,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class UserAuth {
-  private http = inject(HttpClient);
-  private url = `${API}/users`;
-  private apiUrl = `http://localhost:3000`;
+  private apiUrl = environment.apiUrl;
   private user: IUser | null = null;
 
   constructor() {}
@@ -61,7 +58,7 @@ export class UserAuth {
             subscriber.next();
             subscriber.complete();
           })
-          .catch((error) => {
+          .catch((error: any) => {
             subscriber.error(error);
           });
       }
@@ -166,7 +163,7 @@ export class UserAuth {
   }
 
   async createUser(id: string, name: string, email: string): Promise<IUser | null> {
-    const res = await fetch(`${this.apiUrl}/create_user`, {
+    const res = await fetch(`${this.apiUrl}/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
