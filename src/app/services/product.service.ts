@@ -28,7 +28,7 @@ export class ProductService {
   post = (product: Omit<IProduct, 'id'>): Observable<IProduct> =>
     new Observable<IProduct>((observer) => {
       this.auth.getToken().then((token) => {
-        console.log(token);
+        // console.log(token);
         this.http
           .put<IProduct>(`${this.baseUrl}/products`, product, {
             headers: {
