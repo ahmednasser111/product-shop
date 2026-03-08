@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IProduct } from '../models/product.model';
+// import { any } from '../models/product.model';
 import { map } from 'rxjs/operators';
 import { UserAuth } from './auth.service';
 import { environment } from '../../environments/environment';
@@ -14,25 +14,12 @@ export class ShoppingCartService {
   private auth = inject(UserAuth);
   private baseUrl = environment.apiUrl;
 
-  getShoppingList = (): Observable<{ [key: string]: number }[]> =>
-    this.http.get<{ [key: string]: number }[]>(`${this.baseUrl}/products`);
-
-  getById = (id: number): Observable<IProduct> =>
-    this.http.get<IProduct>(`${this.baseUrl}/products/${id}`);
-
-  getAllCategories = (): Observable<string[]> =>
-    this.http
-      .get<IProduct[]>(`${this.baseUrl}/products`)
-      .pipe(map((products) => [...new Set(products.map((p) => p.category))]));
-
-  post = (product: Omit<IProduct, 'id'>): Observable<IProduct> =>
-    new Observable<IProduct>((observer) => {
+  getByUsrId = (usrId: string | null): Observable<any> =>
+    new Observable<any>((observer) => {
       this.auth.getToken().then((token) => {
-        console.log(token);
         this.http
-          .put<IProduct>(`${this.baseUrl}/products`, product, {
+          .get<any>(`${this.baseUrl}/orders/${usrId}`, {
             headers: {
-              'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
             },
           })
@@ -40,9 +27,25 @@ export class ShoppingCartService {
       });
     });
 
-  delete = (id: number): Observable<void> =>
-    this.http.delete<void>(`${this.baseUrl}/products/${id}`);
+  post = (usrId: string | null, prdQtyList: any): Observable<any> =>
+    new Observable<any>((observer) => {
+      this.auth.getToken().then((token) => {
+        console.log(token);
+        this.http
+          .post<any>(
+            `${this.baseUrl}/orders`,
+            { usrId, prdQtyList },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          )
+          .subscribe(observer);
+      });
+    });
 
-  update = (id: number, product: Omit<IProduct, 'id'>): Observable<IProduct> =>
-    this.http.put<IProduct>(`${this.baseUrl}/products/${id}`, product);
+  update = (usrId: string | null, prdQtyList: any): Observable<any> =>
+    this.http.put<any>(`${this.baseUrl}/orders/${usrId}`, prdQtyList);
 }
