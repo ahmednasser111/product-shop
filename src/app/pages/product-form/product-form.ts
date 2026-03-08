@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { ProductService } from '../../services/product.service';
+import { CategoryService } from '../../services/category-service';
+import { Category } from '../../models/category';
 
 @Component({
   selector: 'app-product-form',
@@ -16,11 +18,13 @@ export class ProductForm implements OnInit {
 
   private router = inject(Router);
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
+  private cd = inject(ChangeDetectorRef);
 
   isEditMode: boolean = false;
   isSubmitting: boolean = false;
   isLoading: boolean = false;
-  categories: string[] = [];
+  categories: { [key: string]: Category } = {};
   error: string | null = null;
 
   form = new FormGroup({
@@ -32,9 +36,7 @@ export class ProductForm implements OnInit {
       Validators.min(1),
       Validators.max(5),
     ]),
-    category: new FormControl('', [
-      /*Validators.required*/
-    ]),
+    category: new FormControl<string>('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
   });
 
@@ -57,11 +59,21 @@ export class ProductForm implements OnInit {
     return this.form.get('image')!;
   }
 
+  get getCategories() {
+    return Object.values(this.categories);
+  }
+
   ngOnInit(): void {
     this.isEditMode = !!this.id();
 
-    this.productService.getAllCategories().subscribe({
-      next: (categories) => (this.categories = categories),
+    this.categoryService.getAll().subscribe({
+      next: (res) => {
+        console.log(res);
+        res.categories.map((c: any) => {
+          this.categories[c._id] = { id: c._id, name: c.name };
+        });
+        this.cd.detectChanges();
+      },
       error: (err) => console.error('Failed to load categories', err),
     });
 
@@ -76,7 +88,7 @@ export class ProductForm implements OnInit {
             description: product.description,
             price: product.price,
             rating: product.rating ?? 0,
-            category: product.category,
+            category: (product.category as any)?.id || product.category,
             image: product.image,
           });
           this.isLoading = false;
@@ -96,7 +108,6 @@ export class ProductForm implements OnInit {
 
     this.isSubmitting = true;
     this.error = null;
-
     const formValue = {
       name: this.form.value.name!,
       description: this.form.value.description!,

@@ -38,7 +38,9 @@
             <td class="p-4 text-gray-700 dark:text-gray-300">${{ product.price }}</td>
             <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.stock }}</td>
             <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.rating }}</td>
-            <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.category }}</td>
+            <td class="p-4 text-gray-700 dark:text-gray-300">
+              {{ product.category?.name || product.category }}
+            </td>
 
             <td class="p-4 flex gap-2">
               <button

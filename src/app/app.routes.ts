@@ -80,6 +80,11 @@ export const routes: Routes = [
         canActivate: [authGuard, verificationGuard],
         loadComponent: () => import('./pages/checkout/checkout').then((m) => m.Checkout),
       },
+      {
+        path: 'categories',
+        canActivate: [authGuard, adminGuard, verificationGuard],
+        loadComponent: () => import('./pages/categories/categories').then((m) => m.Categories),
+      },
     ],
   },
 
