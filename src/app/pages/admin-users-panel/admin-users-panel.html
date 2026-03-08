@@ -1,0 +1,77 @@
+<div class="p-6 bg-white dark:bg-gray-900 min-h-screen">
+  <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Users Management</h1>
+
+  <input
+    type="text"
+    placeholder="Search users..."
+    class="border p-2 rounded w-full mb-4 bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+  />
+
+  <div
+    class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+  >
+    <table class="min-w-full bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-700">
+      <thead class="bg-gray-100 dark:bg-gray-700">
+        <tr>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">ID</th>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">Name</th>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">Email</th>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">Role</th>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">Status</th>
+          <th class="p-3 text-left text-gray-700 dark:text-gray-200">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (user of users; track user.id) {
+          <tr class="border-t dark:border-gray-700">
+            <td class="p-3 text-gray-900 dark:text-gray-200">{{ user.id }}</td>
+
+            <td class="p-3 text-gray-900 dark:text-gray-200">{{ user.name }}</td>
+
+            <td class="p-3 text-gray-900 dark:text-gray-200">{{ user.email }}</td>
+
+            <td class="p-3">
+              <span
+                class="px-2 py-1 rounded text-sm bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+              >
+                {{ user.role }}
+              </span>
+            </td>
+
+            <td class="p-3">
+              <span
+                class="px-2 py-1 rounded text-sm"
+                [ngClass]="
+                  user.paused
+                    ? 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300'
+                    : 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300'
+                "
+              >
+                {{ user.paused ? 'Paused' : 'Active' }}
+              </span>
+            </td>
+
+            <td class="p-3 space-x-2">
+              @if (!user.paused) {
+                <button
+                  (click)="pauseUser(user)"
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                >
+                  Pause
+                </button>
+              } @else {
+                <button
+                  (click)="resumeUser(user)"
+                  class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                >
+                  Resume
+                </button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

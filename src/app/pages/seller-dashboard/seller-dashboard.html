@@ -1,7 +1,7 @@
-<div class="p-8 bg-gray-100 min-h-screen">
+<div class="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen transition-colors">
   <!-- Header -->
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Products Dashboard</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100">Products Dashboard</h1>
 
     <button
       (click)="goToAddProduct()"
@@ -12,14 +12,14 @@
   </div>
 
   <!-- Products Table -->
-  <div class="bg-white rounded-2xl shadow overflow-hidden">
+  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow overflow-hidden">
     <table class="w-full text-left">
-      <thead class="bg-gray-50 border-b">
-        <tr class="text-gray-600 text-sm">
+      <thead class="bg-gray-50 dark:bg-gray-700 border-b dark:border-gray-600">
+        <tr class="text-gray-600 dark:text-gray-200 text-sm">
           <th class="p-4">ID</th>
           <th class="p-4">Name</th>
           <th class="p-4">Price</th>
-          <!-- <th class="p-4">Stock</th> -->
+          <th class="p-4">Stock</th>
           <th class="p-4">Rating</th>
           <th class="p-4">Category</th>
           <th class="p-4">Actions</th>
@@ -28,13 +28,17 @@
 
       <tbody>
         @for (product of products; track product.id) {
-          <tr class="border-b hover:bg-gray-50">
-            <td class="p-4">{{ product.id }}</td>
-            <td class="p-4 font-medium">{{ product.name }}</td>
-            <td class="p-4">${{ product.price }}</td>
-            <!-- <td class="p-4">{{ product.stock }}</td> -->
-            <td class="p-4">{{ product.rating }}</td>
-            <td class="p-4">{{ product.category }}</td>
+          <tr
+            class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+          >
+            <td class="p-4 text-gray-800 dark:text-gray-200">{{ product.id }}</td>
+            <td class="p-4 font-medium text-gray-800 dark:text-gray-100">
+              {{ product.name }}
+            </td>
+            <td class="p-4 text-gray-700 dark:text-gray-300">${{ product.price }}</td>
+            <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.stock }}</td>
+            <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.rating }}</td>
+            <td class="p-4 text-gray-700 dark:text-gray-300">{{ product.category }}</td>
 
             <td class="p-4 flex gap-2">
               <button

@@ -79,7 +79,10 @@ export class UserAuth {
             firebaseUser.email ?? '-',
             'user',
           );
-          if (user) {
+          if(user?.isPaused){
+            this.logout();
+            subscriber.error('your account has been paused');
+          }else if (user) {
             this.user = user;
             subscriber.next(user);
           } else {
@@ -112,16 +115,18 @@ export class UserAuth {
         setPersistence(auth, browserLocalPersistence).then(async () => {
           try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user: IUser = {
-              id: userCredential.user?.uid ?? '',
-              name: userCredential.user?.displayName ?? '-',
-              email,
-              password,
-              role: 'user',
-              isVerified: userCredential.user?.emailVerified ?? false,
-            };
-            this.user = user;
-            subscriber.next(user);
+            const user = await this.getUserById(userCredential.user?.uid ?? '');
+            if (user) {
+              if(user.isPaused){
+                this.logout();
+                subscriber.error('your account has been paused');
+              }else{
+                this.user = user;
+                subscriber.next(user);
+              }
+            } else {
+              subscriber.error('user not found');
+            }
             subscriber.complete();
           } catch (error) {
             subscriber.error(error);

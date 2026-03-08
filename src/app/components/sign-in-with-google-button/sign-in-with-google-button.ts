@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserAuth } from '../../services/auth.service';
 
@@ -12,11 +12,18 @@ export class SignInWithGoogleButton {
   constructor(
     private authService: UserAuth,
     private router: Router,
-  ) {}
+  ) {
+  }
+  @Output() onError = new EventEmitter<any>();
 
   signInWithGoogle() {
-    this.authService.signInWithGoogle().subscribe((user) => {
-      this.router.navigate(['/products']);
+    this.authService.signInWithGoogle().subscribe({
+      next: (user) => {
+        this.router.navigate(['/products']);
+      },
+      error: (error) => {
+        this.onError.emit(error);
+      },
     });
   }
 }
