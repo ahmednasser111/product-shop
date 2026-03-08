@@ -4,7 +4,7 @@ export interface IProduct {
   description: string;
   price: number;
   rating: number;
-  category: string;
+  category: { id: string; name: string } | any;
   image: string;
   stock: number;
   sellerId: string;

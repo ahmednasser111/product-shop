@@ -16,14 +16,13 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './products.html',
 })
 export class Products implements OnInit {
-
-  private router         = inject(Router);
+  private router = inject(Router);
   private productService = inject(ProductService);
 
-  allProducts      = signal<IProduct[]>([]);
+  allProducts = signal<IProduct[]>([]);
   filteredProducts = signal<IProduct[]>([]);
-  isLoading        = signal<boolean>(true);
-  error            = signal<string | null>(null);
+  isLoading = signal<boolean>(true);
+  error = signal<string | null>(null);
 
   ngOnInit(): void {
     this.loadProducts();
@@ -42,7 +41,7 @@ export class Products implements OnInit {
       error: () => {
         this.error.set('Failed to load products. Is JSON Server running?');
         this.isLoading.set(false);
-      }
+      },
     });
   }
 
@@ -57,12 +56,12 @@ export class Products implements OnInit {
   onProductDeleted(id: string): void {
     this.productService.delete(id).subscribe({
       next: () => {
-        this.allProducts.update(prev => prev.filter(p => p.id !== id));
-        this.filteredProducts.update(prev => prev.filter(p => p.id !== id));
+        this.allProducts.update((prev) => prev.filter((p) => p.id !== id));
+        this.filteredProducts.update((prev) => prev.filter((p) => p.id !== id));
       },
       error: () => {
         this.error.set('Failed to delete product.');
-      }
+      },
     });
   }
 
@@ -70,23 +69,20 @@ export class Products implements OnInit {
     let result = [...this.allProducts()];
 
     if (state.category !== 'All')
-      result = result.filter(p =>
-        p.category.toLowerCase() === state.category.toLowerCase()
-      );
+      result = result.filter((p) => {
+        const catName = p.category?.name || p.category;
+        return catName?.toLowerCase() === state.category.toLowerCase();
+      });
 
     if (state.name.trim())
-      result = result.filter(p =>
-        p.name.toLowerCase().includes(state.name.toLowerCase())
-      );
+      result = result.filter((p) => p.name.toLowerCase().includes(state.name.toLowerCase()));
 
-    result = result.filter(p =>
-      p.price >= state.minPrice && p.price <= state.maxPrice
-    );
+    result = result.filter((p) => p.price >= state.minPrice && p.price <= state.maxPrice);
 
     result.sort((a, b) => {
-      if (state.sortBy === 'price-asc')  return a.price - b.price;
+      if (state.sortBy === 'price-asc') return a.price - b.price;
       if (state.sortBy === 'price-desc') return b.price - a.price;
-      if (state.sortBy === 'rating')     return b.rating - a.rating;
+      if (state.sortBy === 'rating') return b.rating - a.rating;
       return a.name.localeCompare(b.name);
     });
 

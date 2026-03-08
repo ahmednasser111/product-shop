@@ -26,6 +26,7 @@ export class Navbar {
     }
     if (this.auth.getUser()?.role == ('admin' as Role)) {
       this.links.push({ label: 'Users', path: '/admin-users-panel' });
+      this.links.push({ label: 'Categories', path: '/categories' });
     }
   }
 

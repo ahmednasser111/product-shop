@@ -39,7 +39,7 @@ export class ProductService {
   getAllCategories = (): Observable<string[]> =>
     this.http
       .get<IProduct[]>(`${this.baseUrl}/products`)
-      .pipe(map((products) => [...new Set(products.map((p) => p.category))]));
+      .pipe(map((products) => [...new Set(products.map((p) => p.category?.name || p.category))]));
 
   post = (product: Omit<IProduct, 'id'>): Observable<IProduct> =>
     new Observable<IProduct>((observer) => {

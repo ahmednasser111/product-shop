@@ -35,6 +35,7 @@ export class SellerDashboard {
   ) {
     productsService.getBySeller(auth.getId()!).subscribe({
       next: (data) => {
+        console.log(data);
         this.products = data;
         this.cd.detectChanges();
       },

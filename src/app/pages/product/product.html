@@ -1,22 +1,24 @@
 @if (product(); as currentProduct) {
   <div class="min-h-screen bg-slate-100 dark:bg-gray-900 transition-colors">
     <div class="max-w-4xl mx-auto px-4 py-10">
-
-      <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row transition-colors">
-
+      <div
+        class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row transition-colors"
+      >
         <div class="md:w-1/2 h-64 md:h-auto overflow-hidden">
           <img
             [src]="currentProduct.image"
             [alt]="currentProduct.name"
-            class="w-full h-full object-cover" />
+            class="w-full h-full object-cover"
+          />
         </div>
 
         <!-- Info -->
         <div class="md:w-1/2 p-8 flex flex-col gap-4">
-
           <!-- Category badge -->
-          <span class="self-start bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
-            {{ currentProduct.category }}
+          <span
+            class="self-start bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide"
+          >
+            {{ currentProduct.category?.name || currentProduct.category }}
           </span>
 
           <!-- Name -->
@@ -25,7 +27,9 @@
           </h1>
 
           <!-- Rating -->
-          <p class="text-amber-400 text-xl tracking-widest">{{ '⭐'.repeat(currentProduct.rating) + '☆'.repeat(5 - currentProduct.rating) }}</p>
+          <p class="text-amber-400 text-xl tracking-widest">
+            {{ '⭐'.repeat(currentProduct.rating) + '☆'.repeat(5 - currentProduct.rating) }}
+          </p>
 
           <!-- Description -->
           <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
@@ -37,14 +41,9 @@
             ${{ currentProduct.price }}
           </p>
 
-          <app-buy-button
-            title="Add to Cart"
-            color="#4f46e5"
-            [fun]="onBuy" />
-
+          <app-buy-button title="Add to Cart" color="#4f46e5" [fun]="onBuy" />
         </div>
       </div>
-
     </div>
   </div>
 }
