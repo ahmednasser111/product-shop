@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { UserAuth } from '../../services/auth.service';
+import { Role } from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,14 @@ export class Navbar {
     { label: 'Products', path: '/products' },
     { label: 'Cart', path: '/shopping-cart' },
   ];
+  constructor() {
+    if (this.auth.getUser()?.role == ('seller' as Role)) {
+      this.links.push({ label: 'Dashboard', path: '/seller-dashboard' });
+    }
+    if (this.auth.getUser()?.role == ('admin' as Role)) {
+      this.links.push({ label: 'Users', path: '/admin-users-panel' });
+    }
+  }
 
   menuOpen = false;
 

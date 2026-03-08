@@ -69,6 +69,12 @@ export const routes: Routes = [
           import('./pages/shopping-cart/shopping-cart').then((m) => m.ShoppingCart),
       },
       {
+        path: 'admin-users-panel',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () =>
+          import('./pages/admin-users-panel/admin-users-panel').then((m) => m.AdminUsersPanel),
+      },
+      {
         path: 'checkout',
         // canActivate: [authGuard, adminGuard, verificationGuard],
         canActivate: [authGuard, verificationGuard],

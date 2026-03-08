@@ -40,7 +40,7 @@
       {{ isLoading ? 'Signing in...' : 'Sign In' }}
     </button>
   </form>
-  <app-sign-in-with-google-button></app-sign-in-with-google-button>
+  <app-sign-in-with-google-button (onError)="handleGoogleSignInError($event)"></app-sign-in-with-google-button>
 
   <p class="text-center text-sm text-gray-400 mt-6">
     No account? <a routerLink="/auth/register" class="text-indigo-500 font-semibold">Register</a>

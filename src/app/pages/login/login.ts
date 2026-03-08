@@ -47,9 +47,15 @@ export class Login {
       },
       error: (err) => {
         this.isLoading = false;
-        this.error = err.message;
+        this.error = typeof err === 'string' ? err : err?.message || 'An error occurred during login';
         this.cd.detectChanges();
       },
     });
+  }
+
+  handleGoogleSignInError(error: any) {
+    this.isLoading = false;
+    this.error = typeof error === 'string' ? error : error?.message || 'An error occurred during Google Sign in';
+    this.cd.detectChanges();
   }
 }

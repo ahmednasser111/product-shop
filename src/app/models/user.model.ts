@@ -7,4 +7,5 @@ export interface IUser {
   password: string;
   role: Role;
   isVerified: boolean;
+  isPaused?: boolean;
 }
