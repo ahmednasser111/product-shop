@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserAuth } from '../../services/auth.service';
 import { ShoppingCartService } from '../../services/shopping-cart-service';
 
@@ -12,31 +12,18 @@ import { ShoppingCartService } from '../../services/shopping-cart-service';
 })
 export class ShoppingCart {
   private authService = inject(UserAuth);
+  private router = inject(Router);
   private shCrtService = inject(ShoppingCartService);
 
   usrId: string | null = this.authService.getId();
-  // cart = this.shCrtService.userCart;
+
   cartJoined = this.shCrtService.userCartJoined;
 
-  updateQuantity(index: number, productId: string | number, newQuantity: number) {
-    console.log({ index, productId, newQuantity });
+  updateQuantity(index: number) {
     const stock = this.cartJoined().order.prdQtyList[index].productDetails!.stock;
-    console.log({ details: this.cartJoined().order.prdQtyList[index] });
-
-    if (newQuantity >= stock) {
-      newQuantity = stock;
-      console.log({ newQuantity });
-    }
-    this.cartJoined().order.prdQtyList[index].quantity = newQuantity;
-    this.shCrtService.getByUsrIdJoined(this.authService.getId()).subscribe({
-      next: (data) => {
-        console.log({ joinedData: data });
-      },
-    });
-
-    console.log({ cart: this.cartJoined() });
-
-    if (newQuantity < 1) {
+    let prdQtyList = this.cartJoined().order.prdQtyList[index];
+    if (prdQtyList.quantity > stock) prdQtyList.quantity = stock;
+    if (prdQtyList.quantity < 1) {
       this.cartJoined().order.prdQtyList.splice(index, 1);
     }
     this.shCrtService
@@ -47,9 +34,11 @@ export class ShoppingCart {
         },
       });
   }
+  prdDetails(id: string) {
+    this.router.navigate(['/product', id]);
+  }
   removeFromCart(index: number) {
     this.cartJoined().order.prdQtyList.splice(index, 1);
-    // this.cartJoined().order.prdQtyList.splice(index, 1);
     this.shCrtService
       .update(this.authService.getId(), this.cartJoined().order.prdQtyList)
       .subscribe({

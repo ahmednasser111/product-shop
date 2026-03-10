@@ -23,8 +23,9 @@
                 type="number"
                 min="0"
                 [max]="prdQtyy.productDetails!.stock"
-                [ngModel]="prdQtyy.quantity"
-                (ngModelChange)="updateQuantity($index, prdQtyy.prdId, $event)"
+                [(ngModel)]="prdQtyy.quantity"
+                (change)="updateQuantity($index)"
+                (keypress)="updateQuantity($index)"
               />
             </p>
           </div>
@@ -32,7 +33,7 @@
 
         <div class="flex flex-col items-center gap-2">
           <button
-            routerLink="/products"
+            (click)="prdDetails(prdQtyy.prdId)"
             class="bg-slate-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-4 py-2 rounded-xl font-medium hover:bg-indigo-600 hover:text-white transition-colors"
           >
             View Details

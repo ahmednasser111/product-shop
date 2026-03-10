@@ -5,6 +5,7 @@ import { BuyButton } from '../../components/buy-button/buy-button';
 import { ProductService } from '../../services/product.service';
 import { HttpClient } from '@angular/common/http';
 import { UserAuth } from '../../services/auth.service';
+import { ShoppingCartService } from '../../services/shopping-cart-service';
 
 @Component({
   selector: 'app-product',
@@ -20,11 +21,13 @@ export class Product implements OnInit {
   private http = inject(HttpClient);
   private auth = inject(UserAuth);
   private cd = inject(ChangeDetectorRef);
+  private shoppingCartService = inject(ShoppingCartService);
 
   product = signal<IProduct | undefined>(undefined);
   isLoading = signal<boolean>(true);
   user = this.auth.getUser();
   isFavoriteLoading = false;
+  cartJoined = this.shoppingCartService.userCartJoined;
 
   ngOnInit(): void {
     const productId = this.id();
@@ -52,11 +55,49 @@ export class Product implements OnInit {
   }
 
   onBuy = () => {
-    const currentProduct = this.product();
-    if (currentProduct) {
-      alert(`You added ${currentProduct.name} to cart`);
-      console.log(currentProduct);
+    console.log({
+      usrCart: this.cartJoined(),
+      prdId: this.id(),
+      usrId: this.auth.getId(),
+    });
+
+    if (this.cartJoined().order) {
+      const prdQtyList = this.cartJoined().order.prdQtyList;
+      const prdQtyy = prdQtyList.findIndex((prd) => prd.prdId == this.id());
+      console.log({ prdQtyy });
+
+      if (prdQtyy !== -1) {
+        console.log('inside If');
+
+        prdQtyList[prdQtyy].quantity +=
+          prdQtyList[prdQtyy].quantity >= prdQtyList[prdQtyy].productDetails!.stock
+            ? prdQtyList[prdQtyy].productDetails!.stock - prdQtyList[prdQtyy].quantity
+            : 1;
+      } else {
+        prdQtyList.push({ prdId: this.id()!, quantity: 1 });
+      }
+
+      console.log({ prdQtyList });
+
+      this.shoppingCartService.update(this.auth.getId(), prdQtyList).subscribe({
+        next: (data) => {
+          console.log({ data });
+          this.cartJoined.set(data);
+        },
+      });
+    } else {
+      this.shoppingCartService
+        .post(this.auth.getId(), [{ prdId: this.id()!, quantity: 1 }])
+        .subscribe({
+          next: (ret) => {
+            console.log({ ret });
+            this.cartJoined.set(ret);
+            console.log({ usrCart: this.cartJoined() });
+          },
+        });
     }
+
+    console.log(this.product);
   };
 
   async handleFavorite() {
