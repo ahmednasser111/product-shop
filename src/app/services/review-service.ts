@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Review } from '../models/review';
 import { UserAuth } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,15 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.api}/product/${productId}`);
   }
 
-  async create(rating: number | undefined, comment: string | undefined, productId: string) {
+  async postReview(
+    productId: string,
+    rating: number | undefined,
+    comment: string | undefined,
+  ): Promise<Observable<any>> {
     const token = await this.auth.getToken();
-    return this.http.post<Review>(
+    return this.http.post(
       this.api,
-      { rating, comment, productId },
+      { rating: rating, comment: comment, productId: productId },
       {
         headers: {
           Authorization: `Bearer ${token}`,
