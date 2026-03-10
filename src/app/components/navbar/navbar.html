@@ -1,19 +1,21 @@
 <nav class="bg-gray-900 dark:bg-gray-950 text-white shadow-lg transition-colors">
   <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-
-    <a routerLink="/" class="text-xl font-extrabold tracking-tight text-indigo-400 hover:text-indigo-300 transition-colors">
+    <a
+      routerLink="/"
+      class="text-xl font-extrabold tracking-tight text-indigo-400 hover:text-indigo-300 transition-colors"
+    >
       🛍️ ShopApp
     </a>
 
     <ul class="hidden md:flex items-center gap-8">
-
       @for (link of links; track link.path) {
         <li>
           <a
             [routerLink]="link.path"
             routerLinkActive="text-indigo-400 font-bold border-b-2 border-indigo-400 pb-1"
             [routerLinkActiveOptions]="{ exact: link.path === '/' }"
-            class="text-gray-300 hover:text-white transition-colors text-sm tracking-wide">
+            class="text-gray-300 hover:text-white transition-colors text-sm tracking-wide"
+          >
             {{ link.label }}
           </a>
         </li>
@@ -22,78 +24,92 @@
         <button
           (click)="themeService.toggle()"
           class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
-          [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+          [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+        >
           {{ themeService.isDark() ? '☀️' : '🌙' }}
         </button>
       </li>
 
-      
-        <li class="flex items-center gap-3">
-          <span class="text-sm text-gray-400">
-            {{ auth.getUser()?.name }}
-            <span class="ml-1 text-xs font-bold px-2 py-0.5 rounded-full"
-                  [class.bg-indigo-500]="auth.isAdmin()"
-                  [class.bg-gray-600]="!auth.isAdmin()">
-              {{ auth.getUser()?.role }}
-            </span>
+      <li class="flex items-center gap-3">
+        <a
+          routerLink="/profile-page"
+          class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
+        >
+          👤
+        </a>
+        <span class="text-sm text-gray-400">
+          {{ auth.getUser()?.name }}
+          <span
+            class="ml-1 text-xs font-bold px-2 py-0.5 rounded-full"
+            [class.bg-indigo-500]="auth.isAdmin()"
+            [class.bg-gray-600]="!auth.isAdmin()"
+          >
+            {{ auth.getUser()?.role }}
           </span>
-          <button
-            (click)="logout()"
-            class="text-sm text-gray-400 hover:text-white transition-colors">
-            Logout
-          </button>
-        </li>
+        </span>
+        <button (click)="logout()" class="text-sm text-gray-400 hover:text-white transition-colors">
+          Logout
+        </button>
+      </li>
     </ul>
 
     <div class="md:hidden flex items-center gap-2">
       <button
         (click)="themeService.toggle()"
         class="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors cursor-pointer text-lg"
-        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
         {{ themeService.isDark() ? '☀️' : '🌙' }}
       </button>
 
       <button
         class="flex flex-col gap-1.5 p-2 cursor-pointer"
         (click)="toggleMenu()"
-        aria-label="Toggle menu">
-        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-              [class.rotate-45]="menuOpen"
-              [class.translate-y-2]="menuOpen"></span>
-        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-              [class.opacity-0]="menuOpen"></span>
-        <span class="block w-6 h-0.5 bg-white transition-all duration-300"
-              [class.-rotate-45]="menuOpen"
-              [class.-translate-y-2]="menuOpen"></span>
+        aria-label="Toggle menu"
+      >
+        <span
+          class="block w-6 h-0.5 bg-white transition-all duration-300"
+          [class.rotate-45]="menuOpen"
+          [class.translate-y-2]="menuOpen"
+        ></span>
+        <span
+          class="block w-6 h-0.5 bg-white transition-all duration-300"
+          [class.opacity-0]="menuOpen"
+        ></span>
+        <span
+          class="block w-6 h-0.5 bg-white transition-all duration-300"
+          [class.-rotate-45]="menuOpen"
+          [class.-translate-y-2]="menuOpen"
+        ></span>
       </button>
     </div>
-
   </div>
 
   @if (menuOpen) {
-    <div class="md:hidden border-t border-gray-700 dark:border-gray-600 px-4 py-3 flex flex-col gap-3">
-
+    <div
+      class="md:hidden border-t border-gray-700 dark:border-gray-600 px-4 py-3 flex flex-col gap-3"
+    >
       @for (link of links; track link.path) {
         <a
           [routerLink]="link.path"
           routerLinkActive="text-indigo-400 font-bold"
           [routerLinkActiveOptions]="{ exact: link.path === '/' }"
           class="text-gray-300 hover:text-white transition-colors text-sm py-1"
-          (click)="menuOpen = false">
+          (click)="menuOpen = false"
+        >
           {{ link.label }}
         </a>
       }
 
-      
-        <div class="flex items-center justify-between pt-2 border-t border-gray-700">
-          <span class="text-sm text-gray-400">{{ auth.getUser()?.name }}</span>
-          <button (click)="logout()"
-                  class="text-sm text-red-400 hover:text-red-300 transition-colors">
-            Logout
-          </button>
-        </div>
-
+      <div class="flex items-center justify-between pt-2 border-t border-gray-700">
+        <span class="text-sm text-gray-400">{{ auth.getUser()?.name }}</span>
+        <button
+          (click)="logout()"
+          class="text-sm text-red-400 hover:text-red-300 transition-colors"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   }
-
 </nav>

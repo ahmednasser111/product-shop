@@ -20,6 +20,13 @@ export class ShoppingCart {
 
   updateQuantity(index: number, productId: string | number, newQuantity: number) {
     console.log({ index, productId, newQuantity });
+    const stock = this.cartJoined().order.prdQtyList[index].productDetails!.stock;
+    console.log({ details: this.cartJoined().order.prdQtyList[index] });
+
+    if (newQuantity >= stock) {
+      newQuantity = stock;
+      console.log({ newQuantity });
+    }
     this.cartJoined().order.prdQtyList[index].quantity = newQuantity;
     this.shCrtService.getByUsrIdJoined(this.authService.getId()).subscribe({
       next: (data) => {
