@@ -8,4 +8,5 @@ export interface IUser {
   role: Role;
   isVerified: boolean;
   isPaused?: boolean;
+  favorites?: string[];
 }

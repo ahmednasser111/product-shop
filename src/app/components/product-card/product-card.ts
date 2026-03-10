@@ -14,8 +14,20 @@ import { UserAuth } from '../../services/auth.service';
 export class ProductCard {
   protected auth = inject(UserAuth);
 
-  @Input() product: IProduct = {id: '', name: '', description: '', price: 0, rating: 0, category: '', image: '', stock: 0, sellerId: '', createdAt: '', updatedAt: ''} ;
-  details : boolean = false;
+  @Input() product: IProduct = {
+    id: '',
+    name: '',
+    description: '',
+    price: 0,
+    rating: 0,
+    category: '',
+    image: '',
+    stock: 0,
+    sellerId: '',
+    createdAt: '',
+    updatedAt: '',
+  };
+  details: boolean = false;
   @Output() clickedProductId = new EventEmitter<string>();
   @Output() editProductId = new EventEmitter<string>();
   @Output() deleteProductId = new EventEmitter<string>();
@@ -27,16 +39,17 @@ export class ProductCard {
   onBuy = () => {
     alert(`You bought ${this.product.name}`);
     console.log(this.product);
-  }
+  };
 
   onClick = () => {
     this.clickedProductId.emit(this.product.id);
-  }
-  onDelete = () => {
+  };
+  onDelete = (event: MouseEvent) => {
+    event.stopPropagation();
     this.deleteProductId.emit(this.product.id);
-  }
-  onEdit = () => {
+  };
+  onEdit = (event: MouseEvent) => {
+    event.stopPropagation();
     this.editProductId.emit(this.product.id);
-  }
-
+  };
 }

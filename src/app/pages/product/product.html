@@ -42,6 +42,21 @@
           </p>
 
           <app-buy-button title="Add to Cart" color="#4f46e5" [fun]="onBuy" />
+          <button
+            [hidden]="isFavoriteLoading"
+            [disabled]="isFavoriteLoading"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full transition-colors"
+            (click)="handleFavorite()"
+          >
+            {{
+              (user?.favorites ?? []).includes(currentProduct!.id)
+                ? 'Remove from Favorites'
+                : 'Add to Favorites'
+            }}
+          </button>
+          @if (isFavoriteLoading) {
+            <div class="flex justify-center items-center">Loading</div>
+          }
         </div>
       </div>
     </div>
