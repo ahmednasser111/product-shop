@@ -85,6 +85,11 @@ export const routes: Routes = [
         canActivate: [authGuard, adminGuard, verificationGuard],
         loadComponent: () => import('./pages/categories/categories').then((m) => m.Categories),
       },
+      {
+        path: 'my-reviews',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () => import('./pages/my-reviews/my-reviews').then((m) => m.MyReviews),
+      },
     ],
   },
 

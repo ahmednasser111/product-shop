@@ -83,4 +83,14 @@ export class ProductService {
           .subscribe();
       });
     });
+
+  async getFavorites(): Promise<Observable<any>> {
+    const token = await this.auth.getToken();
+    return this.http.get<any>(`${this.baseUrl}/users/products/favorites`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }
