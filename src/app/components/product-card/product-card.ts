@@ -56,7 +56,11 @@ export class ProductCard implements OnInit {
       if (prdQtyy !== -1) {
         console.log('inside If');
 
-        prdQtyList[prdQtyy].quantity += 1;
+        // prdQtyList[prdQtyy].quantity += 1;
+        prdQtyList[prdQtyy].quantity +=
+          prdQtyList[prdQtyy].quantity >= prdQtyList[prdQtyy].productDetails!.stock
+            ? prdQtyList[prdQtyy].productDetails!.stock - prdQtyList[prdQtyy].quantity
+            : 1;
       } else {
         prdQtyList.push({ prdId: this.product._id!, quantity: 1 });
       }
