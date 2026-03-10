@@ -21,12 +21,14 @@ export class Navbar {
     { label: 'Cart', path: '/shopping-cart' },
   ];
   constructor() {
-    if (this.auth.getUser()?.role == ('seller' as Role)) {
+    const role = this.auth.getUser()?.role;
+    if (role == ('seller' as Role)) {
       this.links.push({ label: 'Dashboard', path: '/seller-dashboard' });
-    }
-    if (this.auth.getUser()?.role == ('admin' as Role)) {
+    } else if (role == ('admin' as Role)) {
       this.links.push({ label: 'Users', path: '/admin-users-panel' });
       this.links.push({ label: 'Categories', path: '/categories' });
+    } else if (role == ('user' as Role)) {
+      this.links.push({ label: 'My Lists', path: '/my-reviews' });
     }
   }
 
