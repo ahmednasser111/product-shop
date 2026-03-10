@@ -6,11 +6,14 @@ import { ProductService } from '../../services/product.service';
 import { HttpClient } from '@angular/common/http';
 import { UserAuth } from '../../services/auth.service';
 import { ShoppingCartService } from '../../services/shopping-cart-service';
+import { ReviewService } from '../../services/review-service';
+import { FormsModule } from '@angular/forms';
+import { Review } from '../../models/review';
 
 @Component({
   selector: 'app-product',
 
-  imports: [BuyButton],
+  imports: [BuyButton, FormsModule],
   templateUrl: './product.html',
 })
 export class Product implements OnInit {
@@ -22,6 +25,11 @@ export class Product implements OnInit {
   private auth = inject(UserAuth);
   private cd = inject(ChangeDetectorRef);
   private shoppingCartService = inject(ShoppingCartService);
+  private reviewService = inject(ReviewService);
+
+  newComment = '';
+  newRating = 0;
+  reviews: Review[] = [];
 
   product = signal<IProduct | undefined>(undefined);
   isLoading = signal<boolean>(true);
@@ -183,6 +191,32 @@ export class Product implements OnInit {
             console.log(error);
           },
         });
+    }
+  }
+
+  async submitReview() {
+    if (!this.user) {
+      alert('You must be logged in to submit a review');
+      return;
+    }
+    const currentProduct = this.product();
+    if (currentProduct) {
+      const obs = await this.reviewService.postReview(
+        currentProduct.id,
+        this.newRating,
+        this.newComment,
+      );
+      obs.subscribe({
+        next: () => {
+          alert('Review submitted successfully');
+          this.newComment = '';
+          this.newRating = 0;
+        },
+        error: (error: any) => {
+          alert('Failed to submit review');
+          console.log(error);
+        },
+      });
     }
   }
 }

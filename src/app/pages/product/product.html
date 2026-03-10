@@ -59,6 +59,60 @@
           }
         </div>
       </div>
+      <!-- Reviews -->
+      <div class="mt-10 border-t pt-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Reviews</h2>
+
+        <!-- Add Review -->
+        @if (user) {
+          <div class="flex flex-col gap-3 mb-6">
+            <textarea
+              [(ngModel)]="newComment"
+              placeholder="Write your review..."
+              class="border rounded-lg p-2 dark:bg-gray-700 dark:text-white"
+            ></textarea>
+
+            <select
+              [(ngModel)]="newRating"
+              class="border rounded-lg p-2 w-32 dark:bg-gray-700 dark:text-white"
+            >
+              <option [value]="5">5 ⭐</option>
+              <option [value]="4">4 ⭐</option>
+              <option [value]="3">3 ⭐</option>
+              <option [value]="2">2 ⭐</option>
+              <option [value]="1">1 ⭐</option>
+            </select>
+
+            <button
+              (click)="submitReview()"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
+            >
+              Submit Review
+            </button>
+          </div>
+        }
+
+        <!-- Reviews List -->
+        <div class="flex flex-col gap-4">
+          @for (review of reviews; track review.id) {
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex flex-col gap-2">
+              <div class="flex justify-between">
+                <span class="font-semibold text-gray-900 dark:text-white">
+                  {{ review.name }}
+                </span>
+
+                <span class="text-amber-400">
+                  {{ '⭐'.repeat(review.rating) }}
+                </span>
+              </div>
+
+              <p class="text-gray-600 dark:text-gray-300 text-sm">
+                {{ review.comment }}
+              </p>
+            </div>
+          }
+        </div>
+      </div>
     </div>
   </div>
 }
