@@ -14,6 +14,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
   signInWithPopup,
+  User,
 } from 'firebase/auth';
 
 @Injectable({ providedIn: 'root' })
@@ -79,10 +80,10 @@ export class UserAuth {
             firebaseUser.email ?? '-',
             'user',
           );
-          if(user?.isPaused){
+          if (user?.isPaused) {
             this.logout();
             subscriber.error('your account has been paused');
-          }else if (user) {
+          } else if (user) {
             this.user = user;
             subscriber.next(user);
           } else {
@@ -117,10 +118,10 @@ export class UserAuth {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = await this.getUserById(userCredential.user?.uid ?? '');
             if (user) {
-              if(user.isPaused){
+              if (user.isPaused) {
                 this.logout();
                 subscriber.error('your account has been paused');
-              }else{
+              } else {
                 this.user = user;
                 subscriber.next(user);
               }
@@ -191,6 +192,24 @@ export class UserAuth {
         name,
         email,
         role,
+      }),
+    });
+    if (res.status === 200) {
+      const data = await res.json();
+      this.user = data.user;
+      return data.user;
+    }
+    return null;
+  }
+
+  async updateUser(id: string, user: Partial<IUser>): Promise<IUser | null> {
+    const res = await fetch(`${this.apiUrl}/users/${this.getId()}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...user,
       }),
     });
     if (res.status === 200) {

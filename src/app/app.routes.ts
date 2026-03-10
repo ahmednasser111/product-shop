@@ -85,6 +85,17 @@ export const routes: Routes = [
         canActivate: [authGuard, adminGuard, verificationGuard],
         loadComponent: () => import('./pages/categories/categories').then((m) => m.Categories),
       },
+      {
+        path: 'profile-page',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () => import('./pages/profile-page/profile-page').then((m) => m.ProfilePage),
+      },
+      {
+        path: 'update-profile',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () =>
+          import('./pages/update-profile/update-profile').then((m) => m.UpdateProfile),
+      },
     ],
   },
 
