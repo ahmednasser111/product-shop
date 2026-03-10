@@ -1,0 +1,77 @@
+<div class="max-w-md mx-auto mt-10">
+  <div
+    class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-gray-700 overflow-hidden"
+  >
+    <div class="h-24 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+
+    <div class="px-8 pb-8">
+      <!-- <div class="relative -mt-12 mb-6">
+        <div
+          class="h-24 w-24 bg-slate-200 dark:bg-gray-700 rounded-2xl border-4 border-white dark:border-gray-800 flex items-center justify-center text-3xl shadow-sm"
+        >
+          👤
+        </div>
+        <span
+          class="absolute bottom-0 left-20 bg-green-500 h-4 w-4 rounded-full border-2 border-white dark:border-gray-800"
+        ></span>
+      </div> -->
+      <br />
+      <br />
+
+      <div class="space-y-6">
+        <div class="text-center">
+          <p class="text-[10px] font-bold text-slate-400 uppercase">Name</p>
+
+          <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">
+            {{ authService.getUser()?.name }}
+          </h2>
+          <br />
+          <p class="text-[10px] font-bold text-slate-400 uppercase">Role</p>
+
+          <p
+            class="inline-block px-3 py-1 mt-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-widest rounded-full"
+          >
+            {{ authService.getUser()?.role }}
+          </p>
+        </div>
+
+        <div class="space-y-4 pt-4 border-t border-slate-50 dark:border-gray-700">
+          <div class="flex items-center gap-4 group">
+            <div
+              class="p-2 bg-slate-50 dark:bg-gray-700 rounded-lg text-slate-400 group-hover:text-indigo-500 transition-colors"
+            >
+              📧
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Email Address</p>
+              <p class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {{ authService.getUser()?.email }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 group">
+            <div
+              class="p-2 bg-slate-50 dark:bg-gray-700 rounded-lg text-slate-400 group-hover:text-indigo-500 transition-colors"
+            >
+              📍
+            </div>
+            <div>
+              <p class="text-[10px] font-bold text-slate-400 uppercase">Shipping Location</p>
+              <p class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                {{ authService.getUser()?.address || 'Not set' }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          routerLink="/update-profile"
+          class="w-full mt-6 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-sm shadow-lg shadow-indigo-100 dark:shadow-none transform active:scale-[0.98] transition-all"
+        >
+          Update Profile Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
