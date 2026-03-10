@@ -87,10 +87,12 @@ export class ProductCard implements OnInit {
   onClick = () => {
     this.clickedProductId.emit(this.product.id);
   };
-  onDelete = () => {
+  onDelete = (event: MouseEvent) => {
+    event.stopPropagation();
     this.deleteProductId.emit(this.product.id);
   };
-  onEdit = () => {
+  onEdit = (event: MouseEvent) => {
+    event.stopPropagation();
     this.editProductId.emit(this.product.id);
   };
 }

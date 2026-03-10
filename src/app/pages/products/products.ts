@@ -34,6 +34,9 @@ export class Products implements OnInit {
 
     this.productService.getAll().subscribe({
       next: (products) => {
+        for (const product of products) {
+          product.id = (product as any)._id;
+        }
         this.allProducts.set(products);
         this.filteredProducts.set(products);
         this.isLoading.set(false);

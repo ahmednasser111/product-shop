@@ -1,0 +1,106 @@
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">My Activity</h1>
+
+  <!-- Tabs -->
+  <div class="flex gap-4 mb-8 border-b border-gray-200 dark:border-gray-700">
+    <button
+      (click)="setTab('reviews')"
+      class="pb-2 font-medium"
+      [ngClass]="{
+        'text-blue-600 border-b-2 border-blue-600': activeTab === 'reviews',
+        'text-gray-500': activeTab !== 'reviews',
+      }"
+    >
+      Reviews
+    </button>
+
+    <button
+      (click)="setTab('favourites')"
+      class="pb-2 font-medium"
+      [ngClass]="{
+        'text-blue-600 border-b-2 border-blue-600': activeTab === 'favourites',
+        'text-gray-500': activeTab !== 'favourites',
+      }"
+    >
+      Favourites
+    </button>
+  </div>
+
+  <!-- ================= REVIEWS ================= -->
+
+  @if (activeTab === 'reviews') {
+    @if (reviews.length === 0) {
+      <div class="text-gray-500 dark:text-gray-400 text-center py-10">
+        You haven't reviewed any products yet.
+      </div>
+    }
+
+    <div class="grid gap-6">
+      @for (review of reviews; track $index) {
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5 flex gap-5 hover:shadow-lg transition border border-gray-100 dark:border-gray-700"
+        >
+          <img [src]="review.product.image" class="w-28 h-28 object-cover rounded-lg" />
+
+          <div class="flex flex-col flex-1">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {{ review.product.name }}
+            </h2>
+
+            <div class="flex items-center mt-1 text-gray-700 dark:text-gray-300">
+              {{ review.rating }}
+              ⭐
+            </div>
+
+            <p class="text-gray-600 dark:text-gray-300 mt-2">
+              {{ review.comment }}
+            </p>
+
+            <div class="flex justify-between items-center mt-4">
+              <span class="text-sm text-gray-400">
+                {{ review.createdAt }}
+              </span>
+
+              <span class="text-sm font-medium text-green-600"> ${{ review.product.price }} </span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ================= FAVOURITES ================= -->
+
+  @if (activeTab === 'favourites') {
+    @if (favourites.length === 0) {
+      <div class="text-gray-500 dark:text-gray-400 text-center py-10">
+        You haven't added favourites yet.
+      </div>
+    }
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (product of favourites; track $index) {
+        <div
+          (click)="goToProduct(product)"
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 hover:shadow-lg transition border border-gray-100 dark:border-gray-700"
+        >
+          <img [src]="product.image" class="w-full h-40 object-cover rounded-lg mb-3" />
+
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {{ product.name }}
+          </h3>
+
+          <p class="text-gray-500 text-sm mt-1">
+            {{ product.description }}
+          </p>
+
+          <div class="flex justify-between items-center mt-3">
+            <span class="text-green-600 font-medium"> ${{ product.price }} </span>
+
+            <span class="text-yellow-400"> ⭐ {{ product.rating }} </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

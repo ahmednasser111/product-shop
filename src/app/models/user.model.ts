@@ -10,4 +10,5 @@ export interface IUser {
   isVerified: boolean;
   isPaused?: boolean;
   address?: string;
+  favorites?: string[];
 }
