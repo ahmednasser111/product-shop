@@ -71,7 +71,7 @@ export class Payment {
     const token = await this.auth.getToken();
     const response = await lastValueFrom(
       this.http.post<{ payment: IPayment }>(
-        `${this.baseUrl}/payments/paypal/confirm-payment`,
+        `${this.baseUrl}/payments/paypal/confirm-payment-cash`,
         body,
         {
           headers: {
@@ -81,6 +81,30 @@ export class Payment {
       ),
     );
     this.shoppingCartService.refreshCarts();
+    return response;
+  };
+
+  getPaymentHistory = async (): Promise<{ payments: IPayment[] }> => {
+    const token = await this.auth.getToken();
+    const response = await lastValueFrom(
+      this.http.get<{ payments: IPayment[] }>(`${this.baseUrl}/payments/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    );
+    return response;
+  };
+
+  getAllPayments = async (): Promise<{ payments: IPayment[] }> => {
+    const token = await this.auth.getToken();
+    const response = await lastValueFrom(
+      this.http.get<{ payments: IPayment[] }>(`${this.baseUrl}/payments/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    );
     return response;
   };
 }

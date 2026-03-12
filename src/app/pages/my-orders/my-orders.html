@@ -1,0 +1,242 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">My Orders</h1>
+      <p class="mt-4 text-lg text-gray-500">View your current cart and your order history.</p>
+    </div>
+
+    <!-- Current Order Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100 bg-gray-50">
+        <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-indigo-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          Current Order
+        </h2>
+      </div>
+
+      <div class="p-6">
+        <ng-container
+          *ngIf="currentOrder() && currentOrder().order?.prdQtyList?.length; else emptyCart"
+        >
+          <div class="space-y-4">
+            <div
+              *ngFor="let item of currentOrder().order.prdQtyList"
+              class="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors rounded-lg px-2 text-sm md:text-base"
+            >
+              <div
+                class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+              >
+                <img
+                  [src]="item.productDetails?.image || 'assets/placeholder.jpg'"
+                  [alt]="item.productDetails?.name"
+                  class="h-full w-full object-cover object-center"
+                />
+              </div>
+
+              <div class="flex flex-1 flex-col">
+                <div>
+                  <div class="flex justify-between font-medium text-gray-900">
+                    <h3 class="line-clamp-2 md:line-clamp-1">{{ item.productDetails?.name }}</h3>
+                    <p class="ml-4 whitespace-nowrap">
+                      {{ item.productDetails?.price | currency }}
+                    </p>
+                  </div>
+                </div>
+                <div class="flex flex-1 items-end justify-between text-sm">
+                  <p class="text-gray-500">Qty {{ item.quantity }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end">
+            <a
+              href="/shopping-cart"
+              class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto transition-all"
+            >
+              Go to Cart
+            </a>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyCart>
+          <div class="text-center py-12">
+            <svg
+              class="mx-auto h-12 w-12 text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No items</h3>
+            <p class="mt-1 text-sm text-gray-500">Your current cart is empty.</p>
+            <div class="mt-6">
+              <a
+                href="/products"
+                class="text-indigo-600 hover:text-indigo-500 font-medium cursor-pointer"
+                >Start shopping →</a
+              >
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100 bg-gray-50">
+        <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-indigo-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Order History
+        </h2>
+      </div>
+
+      <div class="p-6">
+        <ng-container *ngIf="paymentHistory().length; else emptyHistory">
+          <div class="space-y-6 md:space-y-8">
+            <div
+              *ngFor="let payment of paymentHistory()"
+              class="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-100 shadow-sm transition-all hover:shadow-md"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-4 border-b border-gray-200"
+              >
+                <div class="grid grid-cols-2 md:flex md:gap-8 gap-y-2">
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">
+                      Order Placed
+                    </p>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ payment.createdAt | date: 'mediumDate' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Total</p>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ calculateTotal(payment) | currency }}
+                    </p>
+                  </div>
+                  <div class="col-span-2 md:col-span-1">
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Order #</p>
+                    <p
+                      class="text-sm font-medium text-gray-900 truncate max-w-[150px] md:max-w-[200px]"
+                      [title]="payment.transactionId"
+                    >
+                      {{ payment.transactionId }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Status</p>
+                    <span
+                      [ngClass]="{
+                        'bg-green-100 text-green-800 ring-green-600/20':
+                          payment.paymentStatus === 'done',
+                        'bg-yellow-100 text-yellow-800 ring-yellow-600/20':
+                          payment.paymentStatus === 'pending',
+                        'bg-red-100 text-red-800 ring-red-600/20':
+                          payment.paymentStatus === 'failed',
+                      }"
+                      class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset capitalize mt-0.5"
+                    >
+                      {{ payment.paymentStatus }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- History Items -->
+              <div class="space-y-3">
+                <div
+                  *ngFor="let item of payment.productList"
+                  class="flex items-center gap-4 text-sm md:text-base"
+                >
+                  <div
+                    class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 bg-white"
+                  >
+                    <ng-container *ngIf="item.productDetails?.image; else noImage">
+                      <img
+                        [src]="item.productDetails?.image"
+                        [alt]="item.productDetails?.name"
+                        class="h-full w-full object-cover object-center"
+                      />
+                    </ng-container>
+                    <ng-template #noImage>
+                      <div class="flex h-full items-center justify-center bg-gray-100">
+                        <span class="text-xs text-gray-400">Img</span>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <div class="flex flex-1 justify-between">
+                    <div>
+                      <p class="font-medium text-gray-900 line-clamp-1">
+                        {{ item.productDetails?.name || 'Product Unavailable' }}
+                      </p>
+                      <p class="text-gray-500 text-sm">Qty: {{ item.quantity }}</p>
+                    </div>
+                    <p class="font-medium text-gray-900 mr-2 whitespace-nowrap">
+                      <ng-container *ngIf="item.productDetails?.price; else noPrice">
+                        {{ item.productDetails?.price | currency }}
+                      </ng-container>
+                      <ng-template #noPrice>-</ng-template>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyHistory>
+          <div class="text-center py-12">
+            <svg
+              class="mx-auto h-12 w-12 text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No order history</h3>
+            <p class="mt-1 text-sm text-gray-500">You haven't placed any orders yet.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
