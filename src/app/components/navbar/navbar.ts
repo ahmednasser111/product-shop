@@ -30,6 +30,7 @@ export class Navbar {
     } else if (role == ('user' as Role)) {
       this.links.push({ label: 'Cart', path: '/shopping-cart' });
       this.links.push({ label: 'My Lists', path: '/my-reviews' });
+      this.links.push({ label: 'My Orders', path: '/my-orders' });
     }
   }
 

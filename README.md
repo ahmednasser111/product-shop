@@ -1,17 +1,41 @@
 # ProductShop
 
-ProductShop is a small Angular application used for practicing core frontend concepts such as components, data binding, routing, and basic state management in a simple e‑commerce style UI.
+ProductShop is a fully featured Angular application built for e-commerce, supporting various user roles including Customers, Sellers, and Administrators.
 
 ---
 
 ## Features
 
-- **Product listing**: Display a list/grid of products with basic information.
-- **Product details**: Navigate to a dedicated page to see more details about a product.
-- **Cart‑like behavior** (optional, depending on your exercises): Add/remove products and show a running total.
-- **Angular best practices**: Uses components, services, and routing configured via the Angular CLI.
+### 🛍️ E-Commerce Core
 
-_Note: The exact feature set may vary slightly depending on the exercise or lab instructions you are following._
+- **Product Catalog:** Browse a rich list of products categorized intelligently, featuring images, prices, descriptions, and dynamic stock levels.
+- **Product Details:** Navigate to detailed views of products.
+- **Shopping Cart:** Add or remove products to/from a live shopping cart cart with automatic subtotal calculation.
+- **Wishlist & My Lists:** Users can mark products as favorites and access them quickly from their profile.
+- **Product Reviews:** Customers can leave ratings and comments on products they purchased or viewed.
+
+### 💳 Checkout & Payments
+
+- **Multi-Method Checkout:** Supports standard checkout flows.
+- **PayPal Integration:** Securely process payments using the PayPal checkout system.
+- **Cash on Delivery:** Alternative payment method enabling administrators to collect funds upon delivery.
+- **Order History (My Orders):** Customers can review their past and current orders, complete with status tracking and product purchase details.
+
+### 👥 User Roles & Permissions
+
+- **User Authentication:** Secured login and registration featuring robust authentication guards.
+- **Role-Based Navigation:** The UI dynamically adjusts whether a User, Seller, or Admin is logged in.
+
+#### 🛡️ Administrator Features
+
+- **Admin Users Panel:** Manage registered users on the platform.
+- **Admin Orders Panel:** View a global list of all transactions and orders. Includes the ability to manually update the status of 'Cash On Delivery' payments (Pending, Done, Failed).
+- **Categories Management:** Add, edit, and remove product categories.
+
+#### 🏪 Seller Features
+
+- **Seller Dashboard:** A dedicated space for merchants to visualize their catalog.
+- **Product Management:** Sellers can create new products, edit existing descriptions/prices, and crucially, manage product stock.
 
 ---
 
@@ -19,7 +43,7 @@ _Note: The exact feature set may vary slightly depending on the exercise or lab 
 
 - **Node.js**: v18+ (LTS recommended)
 - **pnpm**: v9+
-- **Angular CLI**: v21.1.4 or compatible
+- **Angular CLI**: v17+
 
 Install Angular CLI globally if you don’t already have it:
 
@@ -44,51 +68,6 @@ ng serve
 ```
 
 Open your browser at `http://localhost:4200/`. The app will automatically reload when you change any source files.
-
----
-
-## Common commands
-
-- **Development server**
-
-  ```bash
-  ng serve
-  ```
-
-- **Build for production**
-
-  ```bash
-  ng build
-  ```
-
-  The build artifacts are stored in the `dist/` directory and optimized for performance.
-
-- **Run unit tests** (Vitest)
-
-  ```bash
-  ng test
-  ```
-
-- **Run end‑to‑end tests**
-
-  ```bash
-  ng e2e
-  ```
-
-  Angular CLI does not ship an e2e framework by default; configure the one required by your course or project.
-
----
-
-## Project structure (high level)
-
-Typical important folders and files:
-
-- `src/app` – application modules, components, services, and routing.
-- `src/app/components` – presentational and feature components (e.g. product list, product card).
-- `src/app/services` – injectable services such as product data or cart logic.
-- `src/assets` – static assets (images, JSON data, etc.).
-
-Your specific structure may include extra folders created during the exercises.
 
 ---
 

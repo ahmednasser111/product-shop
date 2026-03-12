@@ -16,6 +16,15 @@ export class ReviewService {
     return this.http.get<Review[]>(`${this.api}/product/${productId}`);
   }
 
+  async getByUser() {
+    const token = await this.auth.getToken();
+    return this.http.get<Review[]>(`${this.api}/user/${this.auth.getUser()?._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
   async postReview(
     productId: string,
     rating: number | undefined,

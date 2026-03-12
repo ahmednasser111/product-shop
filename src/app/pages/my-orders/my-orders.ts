@@ -23,6 +23,7 @@ export class MyOrders implements OnInit {
     try {
       const response = await this.paymentService.getPaymentHistory();
       this.paymentHistory.set(response.payments);
+      console.log(this.paymentHistory());
     } catch (error) {
       console.error('Failed to fetch payment history:', error);
     }
