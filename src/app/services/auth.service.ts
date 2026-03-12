@@ -203,21 +203,28 @@ export class UserAuth {
   }
 
   async updateUser(id: string, user: Partial<IUser>): Promise<IUser | null> {
-    const res = await fetch(`${this.apiUrl}/users/${this.getId()}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...user,
-      }),
-    });
-    if (res.status === 200) {
-      const data = await res.json();
-      this.user = data.user;
-      return data.user;
+    try {
+      const res = await fetch(`${this.apiUrl}/users/${this.getId()}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...user,
+        }),
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        this.user = data.user;
+        return data.user;
+      } else {
+        console.error(await res.json());
+      }
+      return null;
+    } catch (error) {
+      console.error(error);
+      return null;
     }
-    return null;
   }
 
   async getUserById(id: string): Promise<IUser | null> {

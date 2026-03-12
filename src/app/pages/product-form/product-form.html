@@ -83,30 +83,27 @@
           }
         </div>
 
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-            Rating (1–5)
-          </label>
-          <input
-            type="number"
-            formControlName="rating"
-            placeholder="1-5"
-            min="1"
-            max="5"
-            class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-            [class.border-red-400]="rating.invalid && rating.touched"
-            [class.border-gray-200]="!(rating.invalid && rating.touched)"
-            [class.dark:border-gray-600]="!(rating.invalid && rating.touched)"
-          />
-          @if (rating.invalid && rating.touched) {
-            @if (rating.errors?.['required']) {
-              <p class="text-red-500 text-xs mt-1">Rating is required</p>
-            }
-            @if (rating.errors?.['min'] || rating.errors?.['max']) {
-              <p class="text-red-500 text-xs mt-1">Rating must be between 1 and 5</p>
-            }
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+          Stock
+        </label>
+        <input
+          type="number"
+          formControlName="stock"
+          placeholder="0"
+          min="0"
+          class="w-full border rounded-xl px-4 py-2 text-sm outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+          [class.border-red-400]="stock.invalid && stock.touched"
+          [class.border-gray-200]="!(stock.invalid && stock.touched)"
+          [class.dark:border-gray-600]="!(stock.invalid && stock.touched)"
+        />
+        @if (stock.invalid && stock.touched) {
+          @if (stock.errors?.['required']) {
+            <p class="text-red-500 text-xs mt-1">Stock is required</p>
           }
-        </div>
+          @if (stock.errors?.['min']) {
+            <p class="text-red-500 text-xs mt-1">Stock must be 0 or more</p>
+          }
+        }
       </div>
 
       <div>

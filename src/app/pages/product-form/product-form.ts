@@ -31,11 +31,7 @@ export class ProductForm implements OnInit {
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     price: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
-    rating: new FormControl<number | null>(null, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(5),
-    ]),
+    stock: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
     category: new FormControl<string>('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
   });
@@ -49,8 +45,8 @@ export class ProductForm implements OnInit {
   get price() {
     return this.form.get('price')!;
   }
-  get rating() {
-    return this.form.get('rating')!;
+  get stock() {
+    return this.form.get('stock')!;
   }
   get category() {
     return this.form.get('category')!;
@@ -87,7 +83,7 @@ export class ProductForm implements OnInit {
             name: product.name,
             description: product.description,
             price: product.price,
-            rating: product.rating ?? 0,
+            stock: product.stock ?? 0,
             category: (product.category as any)?.id || product.category,
             image: product.image,
           });
@@ -112,10 +108,10 @@ export class ProductForm implements OnInit {
       name: this.form.value.name!,
       description: this.form.value.description!,
       price: Number(this.form.value.price),
-      rating: Number(this.form.value.rating),
+      stock: Number(this.form.value.stock),
       category: this.form.value.category!,
       image: this.form.value.image!,
-      stock: 0,
+      rating: 0,
       sellerId: '',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
