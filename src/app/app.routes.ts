@@ -101,6 +101,16 @@ export const routes: Routes = [
         canActivate: [authGuard, verificationGuard],
         loadComponent: () => import('./pages/my-reviews/my-reviews').then((m) => m.MyReviews),
       },
+      {
+        path: 'my-orders',
+        canActivate: [authGuard, verificationGuard],
+        loadComponent: () => import('./pages/my-orders/my-orders').then((m) => m.MyOrders),
+      },
+      {
+        path: 'admin-orders',
+        canActivate: [authGuard, adminGuard, verificationGuard],
+        loadComponent: () => import('./pages/admin-orders/admin-orders').then((m) => m.AdminOrders),
+      },
     ],
   },
 

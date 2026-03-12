@@ -1,0 +1,125 @@
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">All Orders</h1>
+      <p class="mt-4 text-lg text-gray-500">Manage all customer orders and their statuses.</p>
+    </div>
+
+    <!-- Orders List Section -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div class="px-6 py-5 border-b border-gray-100 bg-gray-50">
+        <h2 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          Order Management
+        </h2>
+      </div>
+
+      <div class="p-6">
+        <div *ngIf="isLoading()" class="text-center py-6">
+          <p class="text-gray-500">Loading orders...</p>
+        </div>
+
+        <ng-container *ngIf="!isLoading() && allPayments().length; else emptyHistory">
+          <div class="space-y-6 md:space-y-8">
+            <div
+              *ngFor="let payment of allPayments()"
+              class="bg-gray-50 rounded-xl p-4 md:p-6 border border-gray-100 shadow-sm transition-all hover:shadow-md"
+            >
+              <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-4 border-b border-gray-200"
+              >
+                <div class="grid grid-cols-2 md:flex md:gap-8 gap-y-2 flex-grow">
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">User ID</p>
+                    <p
+                      class="text-sm font-medium text-gray-900 line-clamp-1"
+                      [title]="payment.userId || payment.userId"
+                    >
+                      {{ payment.userId || payment.userId || 'N/A' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Total</p>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ calculateTotal(payment) | currency }}
+                    </p>
+                  </div>
+                  <div class="col-span-2 md:col-span-1">
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Method</p>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ payment.paymentMethod }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">Status</p>
+                    <span
+                      [ngClass]="{
+                        'bg-green-100 text-green-800 ring-green-600/20':
+                          payment.paymentStatus === 'done',
+                        'bg-yellow-100 text-yellow-800 ring-yellow-600/20':
+                          payment.paymentStatus === 'pending',
+                        'bg-red-100 text-red-800 ring-red-600/20':
+                          payment.paymentStatus === 'failed',
+                      }"
+                      class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset capitalize mt-0.5"
+                    >
+                      {{ payment.paymentStatus }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Admin Action Buttons -->
+                <div class="flex gap-2" *ngIf="payment.paymentMethod === 'Cash On Delivery'">
+                  <button
+                    *ngIf="payment.paymentStatus !== 'done'"
+                    (click)="updatePaymentStatus(payment.transactionId, 'done')"
+                    class="px-3 py-1.5 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition-colors"
+                  >
+                    Mark Done
+                  </button>
+                  <button
+                    *ngIf="payment.paymentStatus !== 'failed'"
+                    (click)="updatePaymentStatus(payment.transactionId, 'failed')"
+                    class="px-3 py-1.5 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition-colors"
+                  >
+                    Mark Failed
+                  </button>
+                  <button
+                    *ngIf="payment.paymentStatus !== 'pending'"
+                    (click)="updatePaymentStatus(payment.transactionId, 'pending')"
+                    class="px-3 py-1.5 bg-yellow-500 text-white rounded text-sm hover:bg-yellow-600 transition-colors"
+                  >
+                    Mark Pending
+                  </button>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div
+                  *ngFor="let item of payment.productList"
+                  class="flex items-center gap-4 text-sm md:text-base"
+                >
+                  <div
+                    class="flex flex-1 justify-between items-center bg-white p-3 rounded border border-gray-100"
+                  >
+                    <div>
+                      <p class="font-medium text-gray-900 line-clamp-1">
+                        Product ID: {{ item.prdId }}
+                      </p>
+                      <p class="text-gray-500 text-sm">Qty: {{ item.quantity }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyHistory>
+          <div *ngIf="!isLoading()" class="text-center py-12">
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No orders found</h3>
+            <p class="mt-1 text-sm text-gray-500">There are no orders in the system yet.</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

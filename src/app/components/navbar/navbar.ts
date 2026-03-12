@@ -18,7 +18,6 @@ export class Navbar {
   links = [
     { label: 'Home', path: '/' },
     { label: 'Products', path: '/products' },
-    { label: 'Cart', path: '/shopping-cart' },
   ];
   constructor() {
     const role = this.auth.getUser()?.role;
@@ -27,7 +26,9 @@ export class Navbar {
     } else if (role == ('admin' as Role)) {
       this.links.push({ label: 'Users', path: '/admin-users-panel' });
       this.links.push({ label: 'Categories', path: '/categories' });
+      this.links.push({ label: 'Orders', path: '/admin-orders' });
     } else if (role == ('user' as Role)) {
+      this.links.push({ label: 'Cart', path: '/shopping-cart' });
       this.links.push({ label: 'My Lists', path: '/my-reviews' });
     }
   }

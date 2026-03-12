@@ -3,7 +3,7 @@ import { prdQty } from './order';
 
 export interface IPayment {
   userId: string;
-  paymentMethod: 'paypal';
+  paymentMethod: 'paypal' | 'Cash On Delivery';
   paymentStatus: 'pending' | 'done' | 'failed';
   productList: prdQty[];
   transactionId: string;
