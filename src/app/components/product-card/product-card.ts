@@ -70,17 +70,31 @@ export class ProductCard implements OnInit {
       this.shoppingCartService.update(this.auth.getId(), prdQtyList).subscribe({
         next: (data) => {
           console.log({ data });
-          this.cartJoined.set(data);
+          // this.cartJoined.set(data);
+          this.shoppingCartService.refreshCarts();
         },
       });
     } else {
+      // this.shoppingCartService
+      //   .post(this.auth.getId(), [{ prdId: this.product._id!, quantity: 1 }])
+      //   .subscribe({
+      //     next: (ret) => {
+      //       console.log({ ret });
+      //       this.cartJoined.set(ret);
+      //       console.log({ usrCart: this.cartJoined() });
+      //     },
+      //   });
       this.shoppingCartService
         .post(this.auth.getId(), [{ prdId: this.product._id!, quantity: 1 }])
         .subscribe({
           next: (ret) => {
             console.log({ ret });
-            this.cartJoined.set(ret);
-            console.log({ usrCart: this.cartJoined() });
+            this.shoppingCartService.refreshCarts();
+            //   this.cartJoined.set(ret);
+            //   console.log({ usrCart: this.cartJoined() });
+          },
+          error: (err) => {
+            console.log({ err });
           },
         });
     }
