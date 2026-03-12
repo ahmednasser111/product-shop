@@ -44,11 +44,25 @@
             {{ totalPrice | currency: 'EGP ' : 'symbol' : '1.0-0' }}
           </span>
         </div>
-
         <button
-          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-[0.98]"
+          (click)="method.set(method() === 'cod' ? '' : 'cod')"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 mb-1 rounded-2xl font-bold text-lg shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-[0.98]"
         >
-          Confirm & Pay Now
+          Confirm & Pay Now (Cash On Delivery)
+        </button>
+        @if (method() === 'cod') {
+          <button
+            (click)="initCashOnDelivery()"
+            class="w-full bg-slate-900 mb-1 text-white py-4 rounded-2xl font-bold text-lg shadow-xl"
+          >
+            Confirm Cash on Delivery
+          </button>
+        }
+        <button
+          (click)="togglePaypal()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 mb-1 rounded-2xl font-bold text-lg shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-[0.98]"
+        >
+          Confirm & Pay Now (PayPal or Card)
         </button>
 
         <a
@@ -58,6 +72,32 @@
           ← Back to Shopping Cart
         </a>
       </div>
+      <!-- @if (method() === 'paypal') { -->
+      <div
+        [class.hidden]="method() !== 'paypal'"
+        class="max-w-xl mx-auto p-10 bg-white dark:bg-gray-800 rounded-[2.5rem] border border-slate-100 dark:border-gray-700 shadow-2xl shadow-indigo-100/50 dark:shadow-none"
+      >
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-black text-slate-900 dark:text-white">Secure Checkout</h2>
+          <p class="text-slate-500 mt-2">Choose your preferred payment method below</p>
+        </div>
+
+        <div id="paypal-button-container" class="min-h-50 transition-all duration-500"></div>
+
+        <!-- <div
+            class="mt-8 pt-6 border-t border-slate-50 dark:border-gray-700 flex items-center justify-center gap-2"
+          >
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest"
+              >Powered by</span
+            >
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+              class="h-4 opacity-50 grayscale hover:grayscale-0 transition-all"
+              alt="PayPal"
+            />
+          </div> -->
+      </div>
+      <!-- } -->
     </div>
   </div>
 </div>

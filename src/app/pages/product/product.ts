@@ -90,17 +90,19 @@ export class Product implements OnInit {
       this.shoppingCartService.update(this.auth.getId(), prdQtyList).subscribe({
         next: (data) => {
           console.log({ data });
-          this.cartJoined.set(data);
+          // this.cartJoined.set(data);
+          this.shoppingCartService.refreshCarts();
         },
       });
     } else {
       this.shoppingCartService
         .post(this.auth.getId(), [{ prdId: this.id()!, quantity: 1 }])
         .subscribe({
-          next: (ret) => {
-            console.log({ ret });
-            this.cartJoined.set(ret);
-            console.log({ usrCart: this.cartJoined() });
+          next: () => {
+            this.shoppingCartService.refreshCarts();
+          },
+          error: (err) => {
+            console.log({ err });
           },
         });
     }
