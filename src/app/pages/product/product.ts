@@ -103,6 +103,7 @@ export class Product implements OnInit {
           },
           error: (err) => {
             console.log({ err });
+            this.shoppingCartService.refreshCarts();
           },
         });
     }

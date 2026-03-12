@@ -24,7 +24,8 @@ export class ShoppingCart {
     let prdQtyList = this.cartJoined().order.prdQtyList[index];
     if (prdQtyList.quantity > stock) prdQtyList.quantity = stock;
     if (prdQtyList.quantity < 1) {
-      this.cartJoined().order.prdQtyList.splice(index, 1);
+      // this.cartJoined().order.prdQtyList.splice(index, 1);
+      prdQtyList.quantity = 1;
     }
     this.shCrtService
       .update(this.authService.getId(), this.cartJoined().order.prdQtyList)
