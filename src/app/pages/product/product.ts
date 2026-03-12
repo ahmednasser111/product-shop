@@ -47,6 +47,8 @@ export class Product implements OnInit {
       next: (product) => {
         product.id = (product as any)._id;
         this.product.set(product);
+        this.getReviews();
+        console.log(this.product());
         this.isLoading.set(false);
         if (!product) {
           this.router.navigate(['/products']);
@@ -173,6 +175,28 @@ export class Product implements OnInit {
         },
         error: (error: any) => {
           alert('Failed to submit review');
+          console.log(error);
+        },
+      });
+    }
+  }
+
+  async getReviews() {
+    const currentProduct = this.product();
+    if (currentProduct) {
+      const obs = this.reviewService.getByProduct(currentProduct.id);
+      obs.subscribe({
+        next: (data) => {
+          this.reviews = data.reviews.map((review: any) => {
+            return {
+              ...review,
+              id: review._id,
+            };
+          });
+          this.cd.detectChanges();
+        },
+        error: (error: any) => {
+          alert('Failed to get reviews');
           console.log(error);
         },
       });

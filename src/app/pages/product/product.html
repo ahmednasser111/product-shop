@@ -28,7 +28,9 @@
 
           <!-- Rating -->
           <p class="text-amber-400 text-xl tracking-widest">
-            {{ '⭐'.repeat(currentProduct.rating) + '☆'.repeat(5 - currentProduct.rating) }}
+            {{
+              '⭐'.repeat(currentProduct.rating || 0) + '☆'.repeat(5 - (currentProduct.rating || 0))
+            }}
           </p>
 
           <!-- Description -->

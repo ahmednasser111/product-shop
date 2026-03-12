@@ -12,8 +12,8 @@ export class ReviewService {
   private api = 'http://localhost:3000/reviews';
   private auth = inject(UserAuth);
 
-  getByProduct(productId: string) {
-    return this.http.get<Review[]>(`${this.api}/product/${productId}`);
+  getByProduct(productId: string): Observable<any> {
+    return this.http.get<any>(`${this.api}/product/${productId}`);
   }
 
   async postReview(
@@ -31,5 +31,18 @@ export class ReviewService {
         },
       },
     );
+  }
+
+  async getByUser(): Promise<Observable<any> | null> {
+    const user = this.auth.getUser();
+    if (!user) {
+      return null;
+    }
+    const token = await this.auth.getToken();
+    return this.http.get(`${this.api}/user/${user._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
