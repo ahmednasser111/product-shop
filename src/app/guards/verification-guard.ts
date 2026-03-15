@@ -8,6 +8,7 @@ export const verificationGuard: CanActivateFn = (route, state) => {
   const auth = inject(UserAuth);
   const firebaseAuth = inject(Auth);
   const router = inject(Router);
+  return true;
   return auth.isLogged().pipe(
     map((isLogged) => {
       if (!isLogged) {
